@@ -26,8 +26,10 @@ import com.firefly.core.lending.assetfinance.interfaces.dtos.ReturnRecordDTO;
 import com.firefly.core.lending.assetfinance.models.entities.ReturnRecord;
 import com.firefly.core.lending.assetfinance.models.repositories.ReturnRecordRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -60,12 +62,20 @@ public class ReturnRecordServiceImpl implements ReturnRecordService {
     @Override
     public Mono<ReturnRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID returnRecordId) {
         return repository.findById(returnRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Return Record not found with id: " + returnRecordId
+                )))
                 .map(mapper::toDTO);
     }
 
     @Override
     public Mono<ReturnRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID returnRecordId, ReturnRecordDTO dto) {
         return repository.findById(returnRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Return Record not found with id: " + returnRecordId
+                )))
                 .flatMap(existing -> {
                     ReturnRecord updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setReturnRecordId(existing.getReturnRecordId());
@@ -78,6 +88,10 @@ public class ReturnRecordServiceImpl implements ReturnRecordService {
     @Override
     public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID returnRecordId) {
         return repository.findById(returnRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Return Record not found with id: " + returnRecordId
+                )))
                 .flatMap(repository::delete);
     }
 }

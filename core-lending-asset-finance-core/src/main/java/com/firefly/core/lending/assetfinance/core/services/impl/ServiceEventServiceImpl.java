@@ -26,8 +26,10 @@ import com.firefly.core.lending.assetfinance.interfaces.dtos.ServiceEventDTO;
 import com.firefly.core.lending.assetfinance.models.entities.ServiceEvent;
 import com.firefly.core.lending.assetfinance.models.repositories.ServiceEventRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -60,12 +62,20 @@ public class ServiceEventServiceImpl implements ServiceEventService {
     @Override
     public Mono<ServiceEventDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID serviceEventId) {
         return repository.findById(serviceEventId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Service Event not found with id: " + serviceEventId
+                )))
                 .map(mapper::toDTO);
     }
 
     @Override
     public Mono<ServiceEventDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID serviceEventId, ServiceEventDTO dto) {
         return repository.findById(serviceEventId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Service Event not found with id: " + serviceEventId
+                )))
                 .flatMap(existing -> {
                     ServiceEvent updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setServiceEventId(existing.getServiceEventId());
@@ -78,6 +88,10 @@ public class ServiceEventServiceImpl implements ServiceEventService {
     @Override
     public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID serviceEventId) {
         return repository.findById(serviceEventId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Service Event not found with id: " + serviceEventId
+                )))
                 .flatMap(repository::delete);
     }
 }

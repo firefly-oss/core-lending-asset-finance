@@ -26,8 +26,10 @@ import com.firefly.core.lending.assetfinance.interfaces.dtos.EndOptionDTO;
 import com.firefly.core.lending.assetfinance.models.entities.EndOption;
 import com.firefly.core.lending.assetfinance.models.repositories.EndOptionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -60,12 +62,20 @@ public class EndOptionServiceImpl implements EndOptionService {
     @Override
     public Mono<EndOptionDTO> getById(UUID assetFinanceAgreementId, UUID endOptionId) {
         return repository.findById(endOptionId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "End Option not found with id: " + endOptionId
+                )))
                 .map(mapper::toDTO);
     }
 
     @Override
     public Mono<EndOptionDTO> update(UUID assetFinanceAgreementId, UUID endOptionId, EndOptionDTO dto) {
         return repository.findById(endOptionId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "End Option not found with id: " + endOptionId
+                )))
                 .flatMap(existing -> {
                     EndOption updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setEndOptionId(existing.getEndOptionId());
@@ -78,6 +88,10 @@ public class EndOptionServiceImpl implements EndOptionService {
     @Override
     public Mono<Void> delete(UUID assetFinanceAgreementId, UUID endOptionId) {
         return repository.findById(endOptionId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "End Option not found with id: " + endOptionId
+                )))
                 .flatMap(repository::delete);
     }
 }

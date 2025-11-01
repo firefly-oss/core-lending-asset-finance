@@ -26,8 +26,10 @@ import com.firefly.core.lending.assetfinance.interfaces.dtos.PickupRecordDTO;
 import com.firefly.core.lending.assetfinance.models.entities.PickupRecord;
 import com.firefly.core.lending.assetfinance.models.repositories.PickupRecordRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -60,12 +62,20 @@ public class PickupRecordServiceImpl implements PickupRecordService {
     @Override
     public Mono<PickupRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId) {
         return repository.findById(pickupRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Pickup Record not found with id: " + pickupRecordId
+                )))
                 .map(mapper::toDTO);
     }
 
     @Override
     public Mono<PickupRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId, PickupRecordDTO dto) {
         return repository.findById(pickupRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Pickup Record not found with id: " + pickupRecordId
+                )))
                 .flatMap(existingRecord -> {
                     PickupRecord updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setPickupRecordId(existingRecord.getPickupRecordId());
@@ -78,6 +88,10 @@ public class PickupRecordServiceImpl implements PickupRecordService {
     @Override
     public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId) {
         return repository.findById(pickupRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Pickup Record not found with id: " + pickupRecordId
+                )))
                 .flatMap(repository::delete);
     }
 }

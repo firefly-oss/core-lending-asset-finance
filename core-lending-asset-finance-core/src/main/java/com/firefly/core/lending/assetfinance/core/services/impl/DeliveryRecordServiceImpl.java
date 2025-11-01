@@ -26,8 +26,10 @@ import com.firefly.core.lending.assetfinance.interfaces.dtos.DeliveryRecordDTO;
 import com.firefly.core.lending.assetfinance.models.entities.DeliveryRecord;
 import com.firefly.core.lending.assetfinance.models.repositories.DeliveryRecordRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -60,12 +62,20 @@ public class DeliveryRecordServiceImpl implements DeliveryRecordService {
     @Override
     public Mono<DeliveryRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID deliveryRecordId) {
         return repository.findById(deliveryRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Delivery Record not found with id: " + deliveryRecordId
+                )))
                 .map(mapper::toDTO);
     }
 
     @Override
     public Mono<DeliveryRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID deliveryRecordId, DeliveryRecordDTO dto) {
         return repository.findById(deliveryRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Delivery Record not found with id: " + deliveryRecordId
+                )))
                 .flatMap(existingRecord -> {
                     DeliveryRecord updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setDeliveryRecordId(existingRecord.getDeliveryRecordId());
@@ -78,6 +88,10 @@ public class DeliveryRecordServiceImpl implements DeliveryRecordService {
     @Override
     public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID deliveryRecordId) {
         return repository.findById(deliveryRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Delivery Record not found with id: " + deliveryRecordId
+                )))
                 .flatMap(repository::delete);
     }
 }

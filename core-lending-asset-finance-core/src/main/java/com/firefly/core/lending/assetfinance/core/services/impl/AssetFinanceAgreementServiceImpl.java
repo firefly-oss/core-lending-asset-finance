@@ -26,8 +26,10 @@ import com.firefly.core.lending.assetfinance.interfaces.dtos.AssetFinanceAgreeme
 import com.firefly.core.lending.assetfinance.models.entities.AssetFinanceAgreement;
 import com.firefly.core.lending.assetfinance.models.repositories.AssetFinanceAgreementRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -59,12 +61,20 @@ public class AssetFinanceAgreementServiceImpl implements AssetFinanceAgreementSe
     @Override
     public Mono<AssetFinanceAgreementDTO> getById(UUID assetFinanceAgreementId) {
         return repository.findById(assetFinanceAgreementId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Asset Finance Agreement not found with id: " + assetFinanceAgreementId
+                )))
                 .map(mapper::toDTO);
     }
 
     @Override
     public Mono<AssetFinanceAgreementDTO> update(UUID assetFinanceAgreementId, AssetFinanceAgreementDTO dto) {
         return repository.findById(assetFinanceAgreementId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Asset Finance Agreement not found with id: " + assetFinanceAgreementId
+                )))
                 .flatMap(existingAgreement -> {
                     AssetFinanceAgreement updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setAssetFinanceAgreementId(existingAgreement.getAssetFinanceAgreementId());
@@ -76,6 +86,10 @@ public class AssetFinanceAgreementServiceImpl implements AssetFinanceAgreementSe
     @Override
     public Mono<Void> delete(UUID assetFinanceAgreementId) {
         return repository.findById(assetFinanceAgreementId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Asset Finance Agreement not found with id: " + assetFinanceAgreementId
+                )))
                 .flatMap(repository::delete);
     }
 }

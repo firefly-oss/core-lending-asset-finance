@@ -26,8 +26,10 @@ import com.firefly.core.lending.assetfinance.interfaces.dtos.UsageRecordDTO;
 import com.firefly.core.lending.assetfinance.models.entities.UsageRecord;
 import com.firefly.core.lending.assetfinance.models.repositories.UsageRecordRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -60,12 +62,20 @@ public class UsageRecordServiceImpl implements UsageRecordService {
     @Override
     public Mono<UsageRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId) {
         return repository.findById(usageRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Usage Record not found with id: " + usageRecordId
+                )))
                 .map(mapper::toDTO);
     }
 
     @Override
     public Mono<UsageRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId, UsageRecordDTO dto) {
         return repository.findById(usageRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Usage Record not found with id: " + usageRecordId
+                )))
                 .flatMap(existing -> {
                     UsageRecord updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setUsageRecordId(existing.getUsageRecordId());
@@ -78,6 +88,10 @@ public class UsageRecordServiceImpl implements UsageRecordService {
     @Override
     public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId) {
         return repository.findById(usageRecordId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Usage Record not found with id: " + usageRecordId
+                )))
                 .flatMap(repository::delete);
     }
 }
