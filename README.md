@@ -27,6 +27,8 @@ A unified microservice for managing both **renting** and **leasing** asset finan
   - [Service Events](#service-events)
   - [Usage Records](#usage-records)
   - [Return Records](#return-records)
+  - [Delivery Records](#delivery-records)
+  - [Pickup Records](#pickup-records)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Environment Variables](#environment-variables)
@@ -59,16 +61,51 @@ The **Core Lending Asset Finance** microservice is responsible for:
 
 1. **Managing Asset Finance Agreements** - Creating and maintaining both renting and leasing agreements with customers
 2. **Asset Tracking** - Managing individual assets associated with finance agreements, including their descriptions, serial numbers, and values
-3. **Lease-End Options** - Handling purchase options available at the end of leasing agreements
-4. **Service Event Management** - Tracking maintenance, damage, inspections, and modifications to financed assets
-5. **Usage Monitoring** - Recording asset usage metrics such as mileage and operating hours
-6. **Return Processing** - Managing the return of assets at the end of agreements, including condition assessments and damage costs
-7. **Integration with Loan Servicing** - Linking finance agreements to loan servicing cases for payment processing and account management
+3. **Delivery & Shipment Tracking** - Managing asset delivery logistics, tracking shipments, carrier information, and delivery confirmations
+4. **Pickup & Collection Tracking** - Managing asset pickup/collection logistics when retrieving assets from customers at agreement end
+5. **Lease-End Options** - Handling purchase options available at the end of leasing agreements
+6. **Service Event Management** - Tracking maintenance, damage, inspections, and modifications to financed assets
+7. **Usage Monitoring** - Recording asset usage metrics such as mileage and operating hours
+8. **Return Processing** - Managing the return of assets at the end of agreements, including condition assessments and damage costs
+9. **Integration with Loan Servicing** - Linking finance agreements to loan servicing cases for payment processing and account management
 
 This microservice does **NOT** handle:
 - Payment processing (handled by `core-lending-loan-servicing`)
 - Repayment schedules (handled by `core-lending-loan-servicing`)
 - Installment calculations (handled by `core-lending-loan-servicing`)
+
+### Asset Lifecycle
+
+The complete lifecycle of an asset in a finance agreement follows this flow:
+
+```
+1. Agreement Created
+   ↓
+2. Asset Assigned to Agreement
+   ↓
+3. 📦 DELIVERY (DeliveryRecord)
+   │  Status: PENDING → SCHEDULED → IN_TRANSIT → DELIVERED
+   │  Tracks: Carrier, tracking number, delivery address, recipient, signature, photos
+   ↓
+4. Asset In Use
+   │  ├─ Service Events (maintenance, damage, inspections)
+   │  └─ Usage Records (mileage, operating hours)
+   ↓
+5. 🚚 PICKUP (PickupRecord)
+   │  Status: PENDING → SCHEDULED → IN_TRANSIT → PICKED_UP
+   │  Tracks: Carrier, tracking number, pickup address, collector, signature, photos
+   ↓
+6. 📋 RETURN (ReturnRecord)
+   │  Condition assessment, damage costs, finalization
+   ↓
+7. Agreement Closed
+```
+
+**Key Points:**
+- **DeliveryRecord**: Tracks the logistics of delivering the asset TO the customer at the start of the agreement
+- **PickupRecord**: Tracks the logistics of collecting the asset FROM the customer at the end of the agreement
+- **ReturnRecord**: Tracks the condition and assessment of the asset upon return (separate from pickup logistics)
+- Both delivery and pickup support multiple attempts, failure tracking, and proof of delivery/collection
 
 ---
 
@@ -127,6 +164,8 @@ erDiagram
     ASSET_FINANCE_ASSET ||--o{ SERVICE_EVENT : "has events"
     ASSET_FINANCE_ASSET ||--o{ USAGE_RECORD : "has usage"
     ASSET_FINANCE_ASSET ||--o{ RETURN_RECORD : "has returns"
+    ASSET_FINANCE_ASSET ||--o{ DELIVERY_RECORD : "has deliveries"
+    ASSET_FINANCE_ASSET ||--o{ PICKUP_RECORD : "has pickups"
 
     ASSET_FINANCE_AGREEMENT {
         uuid asset_finance_agreement_id PK
@@ -202,6 +241,58 @@ erDiagram
         text condition_report "NULLABLE"
         decimal damage_cost "NULLABLE"
         boolean is_finalized "DEFAULT FALSE"
+        text note "NULLABLE"
+        timestamp created_at "NOT NULL"
+        timestamp updated_at "NOT NULL"
+    }
+
+    DELIVERY_RECORD {
+        uuid delivery_record_id PK
+        uuid asset_finance_asset_id FK "NOT NULL"
+        delivery_status_enum delivery_status "NOT NULL - DEFAULT PENDING"
+        date scheduled_delivery_date "NULLABLE"
+        date actual_delivery_date "NULLABLE"
+        text delivery_address "NOT NULL"
+        varchar delivery_city "NULLABLE - Max 100 chars"
+        varchar delivery_state "NULLABLE - Max 100 chars"
+        varchar delivery_postal_code "NULLABLE - Max 20 chars"
+        varchar delivery_country "NULLABLE - Max 100 chars"
+        varchar carrier_name "NULLABLE - Max 200 chars"
+        varchar tracking_number "NULLABLE - Max 200 chars"
+        varchar recipient_name "NULLABLE - Max 200 chars"
+        varchar recipient_phone "NULLABLE - Max 50 chars"
+        varchar recipient_email "NULLABLE - Max 200 chars"
+        boolean signature_received "DEFAULT FALSE"
+        text delivery_condition_notes "NULLABLE"
+        text_array delivery_photo_urls "NULLABLE - Array of URLs"
+        text failed_delivery_reason "NULLABLE"
+        integer delivery_attempts "DEFAULT 0"
+        text note "NULLABLE"
+        timestamp created_at "NOT NULL"
+        timestamp updated_at "NOT NULL"
+    }
+
+    PICKUP_RECORD {
+        uuid pickup_record_id PK
+        uuid asset_finance_asset_id FK "NOT NULL"
+        pickup_status_enum pickup_status "NOT NULL - DEFAULT PENDING"
+        date scheduled_pickup_date "NULLABLE"
+        date actual_pickup_date "NULLABLE"
+        text pickup_address "NOT NULL"
+        varchar pickup_city "NULLABLE - Max 100 chars"
+        varchar pickup_state "NULLABLE - Max 100 chars"
+        varchar pickup_postal_code "NULLABLE - Max 20 chars"
+        varchar pickup_country "NULLABLE - Max 100 chars"
+        varchar carrier_name "NULLABLE - Max 200 chars"
+        varchar tracking_number "NULLABLE - Max 200 chars"
+        varchar collector_name "NULLABLE - Max 200 chars"
+        varchar collector_phone "NULLABLE - Max 50 chars"
+        varchar collector_email "NULLABLE - Max 200 chars"
+        boolean signature_received "DEFAULT FALSE"
+        text pickup_condition_notes "NULLABLE"
+        text_array pickup_photo_urls "NULLABLE - Array of URLs"
+        text failed_pickup_reason "NULLABLE"
+        integer pickup_attempts "DEFAULT 0"
         text note "NULLABLE"
         timestamp created_at "NOT NULL"
         timestamp updated_at "NOT NULL"
@@ -318,6 +409,66 @@ Manages asset returns at the end of agreements.
 
 ---
 
+#### DeliveryRecord
+
+Manages asset delivery and shipment tracking.
+
+**Key Fields:**
+- `deliveryRecordId` (UUID, PK): Unique identifier
+- `assetFinanceAssetId` (UUID, FK): Parent asset
+- `deliveryStatus` (DeliveryStatusEnum): Current delivery status
+- `scheduledDeliveryDate` (LocalDate): Scheduled delivery date
+- `actualDeliveryDate` (LocalDate): Actual delivery date
+- `deliveryAddress` (String): Full delivery address (required)
+- `deliveryCity` (String): Delivery city (max 100 chars)
+- `deliveryState` (String): Delivery state/province (max 100 chars)
+- `deliveryPostalCode` (String): Postal/ZIP code (max 20 chars)
+- `deliveryCountry` (String): Delivery country (max 100 chars)
+- `carrierName` (String): Shipping carrier name (max 200 chars)
+- `trackingNumber` (String): Shipment tracking number (max 200 chars)
+- `recipientName` (String): Name of recipient (max 200 chars)
+- `recipientPhone` (String): Recipient phone number (max 50 chars)
+- `recipientEmail` (String): Recipient email address (max 200 chars)
+- `signatureReceived` (Boolean): Whether delivery signature was received
+- `deliveryConditionNotes` (String): Notes on asset condition at delivery (max 2000 chars)
+- `deliveryPhotoUrls` (List<String>): URLs to delivery proof photos
+- `failedDeliveryReason` (String): Reason for failed delivery (max 1000 chars)
+- `deliveryAttempts` (Integer): Number of delivery attempts made
+
+**DTO:** `DeliveryRecordDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.delivery.v1`
+
+---
+
+#### PickupRecord
+
+Manages asset pickup and collection tracking when retrieving assets from customers.
+
+**Key Fields:**
+- `pickupRecordId` (UUID, PK): Unique identifier
+- `assetFinanceAssetId` (UUID, FK): Parent asset
+- `pickupStatus` (PickupStatusEnum): Current pickup status
+- `scheduledPickupDate` (LocalDate): Scheduled pickup date
+- `actualPickupDate` (LocalDate): Actual pickup date
+- `pickupAddress` (String): Full pickup address (required)
+- `pickupCity` (String): Pickup city (max 100 chars)
+- `pickupState` (String): Pickup state/province (max 100 chars)
+- `pickupPostalCode` (String): Postal/ZIP code (max 20 chars)
+- `pickupCountry` (String): Pickup country (max 100 chars)
+- `carrierName` (String): Shipping carrier name (max 200 chars)
+- `trackingNumber` (String): Shipment tracking number (max 200 chars)
+- `collectorName` (String): Name of person collecting the asset (max 200 chars)
+- `collectorPhone` (String): Collector phone number (max 50 chars)
+- `collectorEmail` (String): Collector email address (max 200 chars)
+- `signatureReceived` (Boolean): Whether pickup signature was received
+- `pickupConditionNotes` (String): Notes on asset condition at pickup (max 2000 chars)
+- `pickupPhotoUrls` (List<String>): URLs to pickup proof photos
+- `failedPickupReason` (String): Reason for failed pickup (max 1000 chars)
+- `pickupAttempts` (Integer): Number of pickup attempts made
+
+**DTO:** `PickupRecordDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.pickup.v1`
+
+---
+
 ### Enumerations
 
 #### FinanceTypeEnum
@@ -359,6 +510,38 @@ Categorizes service events for assets.
 - `MODIFICATION`: Modification to the asset
 
 **Package:** `com.firefly.core.lending.assetfinance.interfaces.enums.event.v1`
+
+---
+
+#### DeliveryStatusEnum
+
+Represents the current status of an asset delivery.
+
+**Values:**
+- `PENDING`: Delivery is pending/not yet scheduled
+- `SCHEDULED`: Delivery has been scheduled
+- `IN_TRANSIT`: Asset is currently in transit
+- `DELIVERED`: Asset has been successfully delivered
+- `FAILED`: Delivery attempt failed
+- `CANCELLED`: Delivery was cancelled
+
+**Package:** `com.firefly.core.lending.assetfinance.interfaces.enums.delivery.v1`
+
+---
+
+#### PickupStatusEnum
+
+Represents the current status of an asset pickup/collection.
+
+**Values:**
+- `PENDING`: Pickup is pending/not yet scheduled
+- `SCHEDULED`: Pickup has been scheduled
+- `IN_TRANSIT`: Asset is currently in transit (after pickup)
+- `PICKED_UP`: Asset has been successfully picked up
+- `FAILED`: Pickup attempt failed
+- `CANCELLED`: Pickup was cancelled
+
+**Package:** `com.firefly.core.lending.assetfinance.interfaces.enums.pickup.v1`
 
 ---
 
@@ -468,6 +651,40 @@ All endpoints are prefixed with `/api/v1` and support reactive (non-blocking) op
 
 ---
 
+### Delivery Records
+
+**Base Path:** `/api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/delivery-records`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | List/Search delivery records for an asset |
+| POST | `/` | Create a new delivery record |
+| GET | `/{deliveryRecordId}` | Get delivery record by ID |
+| PUT | `/{deliveryRecordId}` | Update an existing delivery record |
+| DELETE | `/{deliveryRecordId}` | Delete a delivery record |
+
+**Controller:** `DeliveryRecordController`
+**Service:** `DeliveryRecordService`
+
+---
+
+### Pickup Records
+
+**Base Path:** `/api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/pickup-records`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | List/Search pickup records for an asset |
+| POST | `/` | Create a new pickup record |
+| GET | `/{pickupRecordId}` | Get pickup record by ID |
+| PUT | `/{pickupRecordId}` | Update an existing pickup record |
+| DELETE | `/{pickupRecordId}` | Delete a pickup record |
+
+**Controller:** `PickupRecordController`
+**Service:** `PickupRecordService`
+
+---
+
 ## Getting Started
 
 ### Prerequisites
@@ -532,13 +749,18 @@ core-lending-asset-finance/
 │       ├── dtos/           # Data Transfer Objects
 │       │   ├── agreement/v1/
 │       │   ├── assets/v1/
+│       │   ├── delivery/v1/
 │       │   ├── event/v1/
 │       │   ├── option/v1/
+│       │   ├── pickup/v1/
+│       │   ├── returnrecord/v1/
 │       │   └── usage/v1/
 │       └── enums/          # Enumerations
 │           ├── agreement/v1/
+│           ├── delivery/v1/
 │           ├── event/v1/
-│           └── finance/v1/
+│           ├── finance/v1/
+│           └── pickup/v1/
 │
 ├── core-lending-asset-finance-models/
 │   └── src/main/
@@ -576,8 +798,10 @@ core-lending-asset-finance-models/src/main/resources/db/migration/
 ```
 
 **Migration Files:**
-- `V1__Create_Enums.sql` - Creates custom enum types
-- `V2__Create_Tables.sql` - Creates all tables and indexes
+- `V1__Create_Enums.sql` - Creates custom enum types (finance_type, agreement_status, event_type)
+- `V2__Create_Tables.sql` - Creates core tables (asset_finance_agreement, asset_finance_asset, end_option, service_event, usage_record, return_record)
+- `V3__Create_Delivery_Record_Table.sql` - Creates delivery_record table and delivery_status enum for shipment tracking
+- `V4__Create_Pickup_Record_Table.sql` - Creates pickup_record table and pickup_status enum for collection tracking
 
 Migrations run automatically on application startup.
 
