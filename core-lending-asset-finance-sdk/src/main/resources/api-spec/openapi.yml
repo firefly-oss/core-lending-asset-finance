@@ -12,6 +12,8 @@ servers:
   - url: /
     description: Local Development Environment
 tags:
+  - name: DeliveryRecord
+    description: Operations for Asset Delivery/Shipment Records
   - name: AssetFinanceAgreement
     description: Operations for Asset Finance Agreements (Leasing & Renting)
   - name: ServiceEvent
@@ -24,6 +26,8 @@ tags:
     description: Operations for Asset Usage Records (Mileage, Hours, etc.)
   - name: AssetFinanceAsset
     description: Operations for Asset Finance Assets
+  - name: PickupRecord
+    description: Operations for Asset Pickup/Collection Records
 paths:
   /api/v1/asset-finance-agreements/{assetFinanceAgreementId}:
     get:
@@ -637,6 +641,234 @@ paths:
       responses:
         '200':
           description: OK
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/pickup-records/{pickupRecordId}:
+    get:
+      tags:
+        - PickupRecord
+      summary: Get a pickup record by ID
+      operationId: getById_6
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pickupRecordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PickupRecordDTO'
+    put:
+      tags:
+        - PickupRecord
+      summary: Update an existing pickup record
+      operationId: update_6
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pickupRecordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PickupRecordDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PickupRecordDTO'
+    delete:
+      tags:
+        - PickupRecord
+      summary: Delete a pickup record
+      operationId: delete_6
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pickupRecordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/delivery-records/{deliveryRecordId}:
+    get:
+      tags:
+        - DeliveryRecord
+      summary: Get a delivery record by ID
+      operationId: getById_7
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: deliveryRecordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DeliveryRecordDTO'
+    put:
+      tags:
+        - DeliveryRecord
+      summary: Update an existing delivery record
+      operationId: update_7
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: deliveryRecordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryRecordDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DeliveryRecordDTO'
+    delete:
+      tags:
+        - DeliveryRecord
+      summary: Delete a delivery record
+      operationId: delete_7
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: deliveryRecordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
   /api/v1/asset-finance-agreements:
     get:
       tags:
@@ -644,256 +876,11 @@ paths:
       summary: List/Search asset finance agreements
       operationId: findAll
       parameters:
-        - name: pagination.pageNumber
+        - name: filterRequest
           in: query
-          description: Page number (0-based)
-          required: false
+          required: true
           schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: pagination.pageSize
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
-        - name: pagination.sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-        - name: pagination.sortDirection
-          in: query
-          description: Sort direction (ASC or DESC)
-          required: false
-          schema:
-            type: string
-            default: DESC
-        - name: options.caseInsensitiveStrings
-          in: query
-          description: Enable case-insensitive string filtering
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: options.includeInheritedFields
-          in: query
-          description: Include fields from parent classes
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: filters.contractId
-          in: query
-          description: Exact filter for contract id
-          required: false
-          schema:
-            type: string
-        - name: filters.customerId
-          in: query
-          description: Exact filter for customer id
-          required: false
-          schema:
-            type: string
-        - name: filters.loanServicingCaseId
-          in: query
-          description: Exact filter for loan servicing case id
-          required: false
-          schema:
-            type: string
-        - name: filters.financeType
-          in: query
-          description: Exact filter for finance type
-          required: false
-          schema:
-            type: string
-            enum:
-              - RENTING
-              - LEASING
-        - name: filters.agreementStatus
-          in: query
-          description: Exact filter for agreement status
-          required: false
-          schema:
-            type: string
-            enum:
-              - ACTIVE
-              - SUSPENDED
-              - CLOSED
-              - TERMINATED
-              - DEFAULTED
-        - name: filters.startDate
-          in: query
-          description: Exact filter for start date
-          required: false
-          schema:
-            type: string
-        - name: filters.endDate
-          in: query
-          description: Exact filter for end date
-          required: false
-          schema:
-            type: string
-        - name: filters.totalValue
-          in: query
-          description: Exact filter for total value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[totalValue].from
-          in: query
-          description: Filter total value from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[totalValue].to
-          in: query
-          description: Filter total value to value
-          required: false
-          schema:
-            type: string
-        - name: filters.paymentFrequency
-          in: query
-          description: Exact filter for payment frequency
-          required: false
-          schema:
-            type: string
-        - name: filters.servicesIncluded
-          in: query
-          description: Exact filter for services included
-          required: false
-          schema:
-            type: boolean
-        - name: filters.depositAmount
-          in: query
-          description: Exact filter for deposit amount
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[depositAmount].from
-          in: query
-          description: Filter deposit amount from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[depositAmount].to
-          in: query
-          description: Filter deposit amount to value
-          required: false
-          schema:
-            type: string
-        - name: filters.earlyTerminationFee
-          in: query
-          description: Exact filter for early termination fee
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[earlyTerminationFee].from
-          in: query
-          description: Filter early termination fee from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[earlyTerminationFee].to
-          in: query
-          description: Filter early termination fee to value
-          required: false
-          schema:
-            type: string
-        - name: filters.residualValue
-          in: query
-          description: Exact filter for residual value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[residualValue].from
-          in: query
-          description: Filter residual value from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[residualValue].to
-          in: query
-          description: Filter residual value to value
-          required: false
-          schema:
-            type: string
-        - name: filters.purchaseOptionAvailable
-          in: query
-          description: Exact filter for purchase option available
-          required: false
-          schema:
-            type: boolean
-        - name: filters.purchaseOptionPrice
-          in: query
-          description: Exact filter for purchase option price
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[purchaseOptionPrice].from
-          in: query
-          description: Filter purchase option price from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[purchaseOptionPrice].to
-          in: query
-          description: Filter purchase option price to value
-          required: false
-          schema:
-            type: string
-        - name: filters.remarks
-          in: query
-          description: Exact filter for remarks
-          required: false
-          schema:
-            type: string
-        - name: filters.createdAt
-          in: query
-          description: Exact filter for created at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].from
-          in: query
-          description: Filter created at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].to
-          in: query
-          description: Filter created at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: filters.updatedAt
-          in: query
-          description: Exact filter for updated at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].from
-          in: query
-          description: Filter updated at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].to
-          in: query
-          description: Filter updated at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
+            $ref: '#/components/schemas/FilterRequestAssetFinanceAgreementDTO'
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -945,133 +932,11 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: pagination.pageNumber
+        - name: filterRequest
           in: query
-          description: Page number (0-based)
-          required: false
+          required: true
           schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: pagination.pageSize
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
-        - name: pagination.sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-        - name: pagination.sortDirection
-          in: query
-          description: Sort direction (ASC or DESC)
-          required: false
-          schema:
-            type: string
-            default: DESC
-        - name: options.caseInsensitiveStrings
-          in: query
-          description: Enable case-insensitive string filtering
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: options.includeInheritedFields
-          in: query
-          description: Include fields from parent classes
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: filters.assetFinanceAgreementId
-          in: query
-          description: Exact filter for asset finance agreement id
-          required: false
-          schema:
-            type: string
-        - name: filters.optionExerciseDate
-          in: query
-          description: Exact filter for option exercise date
-          required: false
-          schema:
-            type: string
-        - name: filters.optionPaidAmount
-          in: query
-          description: Exact filter for option paid amount
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[optionPaidAmount].from
-          in: query
-          description: Filter option paid amount from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[optionPaidAmount].to
-          in: query
-          description: Filter option paid amount to value
-          required: false
-          schema:
-            type: string
-        - name: filters.isExercised
-          in: query
-          description: Exact filter for is exercised
-          required: false
-          schema:
-            type: boolean
-        - name: filters.note
-          in: query
-          description: Exact filter for note
-          required: false
-          schema:
-            type: string
-        - name: filters.createdAt
-          in: query
-          description: Exact filter for created at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].from
-          in: query
-          description: Filter created at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].to
-          in: query
-          description: Filter created at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: filters.updatedAt
-          in: query
-          description: Exact filter for updated at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].from
-          in: query
-          description: Filter updated at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].to
-          in: query
-          description: Filter updated at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
+            $ref: '#/components/schemas/FilterRequestEndOptionDTO'
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -1129,145 +994,11 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: pagination.pageNumber
+        - name: filterRequest
           in: query
-          description: Page number (0-based)
-          required: false
+          required: true
           schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: pagination.pageSize
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
-        - name: pagination.sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-        - name: pagination.sortDirection
-          in: query
-          description: Sort direction (ASC or DESC)
-          required: false
-          schema:
-            type: string
-            default: DESC
-        - name: options.caseInsensitiveStrings
-          in: query
-          description: Enable case-insensitive string filtering
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: options.includeInheritedFields
-          in: query
-          description: Include fields from parent classes
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: filters.assetFinanceAgreementId
-          in: query
-          description: Exact filter for asset finance agreement id
-          required: false
-          schema:
-            type: string
-        - name: filters.assetTypeId
-          in: query
-          description: Exact filter for asset type id
-          required: false
-          schema:
-            type: string
-        - name: filters.assetDescription
-          in: query
-          description: Exact filter for asset description
-          required: false
-          schema:
-            type: string
-        - name: filters.assetSerialNumber
-          in: query
-          description: Exact filter for asset serial number
-          required: false
-          schema:
-            type: string
-        - name: filters.assetValue
-          in: query
-          description: Exact filter for asset value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[assetValue].from
-          in: query
-          description: Filter asset value from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[assetValue].to
-          in: query
-          description: Filter asset value to value
-          required: false
-          schema:
-            type: string
-        - name: filters.isActive
-          in: query
-          description: Exact filter for is active
-          required: false
-          schema:
-            type: boolean
-        - name: filters.note
-          in: query
-          description: Exact filter for note
-          required: false
-          schema:
-            type: string
-        - name: filters.createdAt
-          in: query
-          description: Exact filter for created at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].from
-          in: query
-          description: Filter created at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].to
-          in: query
-          description: Filter created at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: filters.updatedAt
-          in: query
-          description: Exact filter for updated at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].from
-          in: query
-          description: Filter updated at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].to
-          in: query
-          description: Filter updated at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
+            $ref: '#/components/schemas/FilterRequestAssetFinanceAssetDTO'
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -1331,130 +1062,11 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: pagination.pageNumber
+        - name: filterRequest
           in: query
-          description: Page number (0-based)
-          required: false
+          required: true
           schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: pagination.pageSize
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
-        - name: pagination.sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-        - name: pagination.sortDirection
-          in: query
-          description: Sort direction (ASC or DESC)
-          required: false
-          schema:
-            type: string
-            default: DESC
-        - name: options.caseInsensitiveStrings
-          in: query
-          description: Enable case-insensitive string filtering
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: options.includeInheritedFields
-          in: query
-          description: Include fields from parent classes
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: filters.assetFinanceAssetId
-          in: query
-          description: Exact filter for asset finance asset id
-          required: false
-          schema:
-            type: string
-        - name: filters.usageDate
-          in: query
-          description: Exact filter for usage date
-          required: false
-          schema:
-            type: string
-        - name: filters.mileage
-          in: query
-          description: Exact filter for mileage
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: rangeFilters.ranges[mileage].from
-          in: query
-          description: Filter mileage from value
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: rangeFilters.ranges[mileage].to
-          in: query
-          description: Filter mileage to value
-          required: false
-          schema:
-            type: integer
-            format: int32
-        - name: filters.usageDetail
-          in: query
-          description: Exact filter for usage detail
-          required: false
-          schema:
-            type: string
-        - name: filters.createdAt
-          in: query
-          description: Exact filter for created at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].from
-          in: query
-          description: Filter created at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].to
-          in: query
-          description: Filter created at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: filters.updatedAt
-          in: query
-          description: Exact filter for updated at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].from
-          in: query
-          description: Filter updated at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].to
-          in: query
-          description: Filter updated at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
+            $ref: '#/components/schemas/FilterRequestUsageRecordDTO'
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -1524,139 +1136,11 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: pagination.pageNumber
+        - name: filterRequest
           in: query
-          description: Page number (0-based)
-          required: false
+          required: true
           schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: pagination.pageSize
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
-        - name: pagination.sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-        - name: pagination.sortDirection
-          in: query
-          description: Sort direction (ASC or DESC)
-          required: false
-          schema:
-            type: string
-            default: DESC
-        - name: options.caseInsensitiveStrings
-          in: query
-          description: Enable case-insensitive string filtering
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: options.includeInheritedFields
-          in: query
-          description: Include fields from parent classes
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: filters.assetFinanceAssetId
-          in: query
-          description: Exact filter for asset finance asset id
-          required: false
-          schema:
-            type: string
-        - name: filters.eventDate
-          in: query
-          description: Exact filter for event date
-          required: false
-          schema:
-            type: string
-        - name: filters.eventType
-          in: query
-          description: Exact filter for event type
-          required: false
-          schema:
-            type: string
-            enum:
-              - MAINTENANCE
-              - DAMAGE
-              - RETURN
-              - INSPECTION
-              - MODIFICATION
-        - name: filters.cost
-          in: query
-          description: Exact filter for cost
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[cost].from
-          in: query
-          description: Filter cost from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[cost].to
-          in: query
-          description: Filter cost to value
-          required: false
-          schema:
-            type: string
-        - name: filters.note
-          in: query
-          description: Exact filter for note
-          required: false
-          schema:
-            type: string
-        - name: filters.createdAt
-          in: query
-          description: Exact filter for created at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].from
-          in: query
-          description: Filter created at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].to
-          in: query
-          description: Filter created at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: filters.updatedAt
-          in: query
-          description: Exact filter for updated at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].from
-          in: query
-          description: Filter updated at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].to
-          in: query
-          description: Filter updated at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
+            $ref: '#/components/schemas/FilterRequestServiceEventDTO'
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -1726,139 +1210,11 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: pagination.pageNumber
+        - name: filterRequest
           in: query
-          description: Page number (0-based)
-          required: false
+          required: true
           schema:
-            type: integer
-            format: int32
-            default: 0
-        - name: pagination.pageSize
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 10
-        - name: pagination.sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-        - name: pagination.sortDirection
-          in: query
-          description: Sort direction (ASC or DESC)
-          required: false
-          schema:
-            type: string
-            default: DESC
-        - name: options.caseInsensitiveStrings
-          in: query
-          description: Enable case-insensitive string filtering
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: options.includeInheritedFields
-          in: query
-          description: Include fields from parent classes
-          required: false
-          schema:
-            type: boolean
-            default: false
-        - name: filters.assetFinanceAssetId
-          in: query
-          description: Exact filter for asset finance asset id
-          required: false
-          schema:
-            type: string
-        - name: filters.actualReturnDate
-          in: query
-          description: Exact filter for actual return date
-          required: false
-          schema:
-            type: string
-        - name: filters.conditionReport
-          in: query
-          description: Exact filter for condition report
-          required: false
-          schema:
-            type: string
-        - name: filters.damageCost
-          in: query
-          description: Exact filter for damage cost
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[damageCost].from
-          in: query
-          description: Filter damage cost from value
-          required: false
-          schema:
-            type: string
-        - name: rangeFilters.ranges[damageCost].to
-          in: query
-          description: Filter damage cost to value
-          required: false
-          schema:
-            type: string
-        - name: filters.isFinalized
-          in: query
-          description: Exact filter for is finalized
-          required: false
-          schema:
-            type: boolean
-        - name: filters.note
-          in: query
-          description: Exact filter for note
-          required: false
-          schema:
-            type: string
-        - name: filters.createdAt
-          in: query
-          description: Exact filter for created at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].from
-          in: query
-          description: Filter created at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[createdAt].to
-          in: query
-          description: Filter created at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: filters.updatedAt
-          in: query
-          description: Exact filter for updated at
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].from
-          in: query
-          description: Filter updated at from value
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - name: rangeFilters.ranges[updatedAt].to
-          in: query
-          description: Filter updated at to value
-          required: false
-          schema:
-            type: string
-            format: date-time
+            $ref: '#/components/schemas/FilterRequestReturnRecordDTO'
         - name: X-Idempotency-Key
           in: header
           description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
@@ -1909,6 +1265,154 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/ReturnRecordDTO'
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/pickup-records:
+    get:
+      tags:
+        - PickupRecord
+      summary: List/Search pickup records for an asset
+      operationId: findAll_6
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: filterRequest
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/FilterRequestPickupRecordDTO'
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaginationResponsePickupRecordDTO'
+    post:
+      tags:
+        - PickupRecord
+      summary: Create a new pickup record for an asset
+      operationId: create_6
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PickupRecordDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PickupRecordDTO'
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/delivery-records:
+    get:
+      tags:
+        - DeliveryRecord
+      summary: List/Search delivery records for an asset
+      operationId: findAll_7
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: filterRequest
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/FilterRequestDeliveryRecordDTO'
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaginationResponseDeliveryRecordDTO'
+    post:
+      tags:
+        - DeliveryRecord
+      summary: Create a new delivery record for an asset
+      operationId: create_7
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeliveryRecordDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DeliveryRecordDTO'
 components:
   schemas:
     AssetFinanceAgreementDTO:
@@ -2157,6 +1661,272 @@ components:
         updatedAt:
           type: string
           format: date-time
+    PickupRecordDTO:
+      required:
+        - assetFinanceAssetId
+        - pickupAddress
+        - pickupStatus
+      type: object
+      properties:
+        pickupRecordId:
+          type: string
+          format: uuid
+          readOnly: true
+        assetFinanceAssetId:
+          type: string
+          format: uuid
+        pickupStatus:
+          type: string
+          enum:
+            - PENDING
+            - SCHEDULED
+            - IN_TRANSIT
+            - PICKED_UP
+            - FAILED
+            - CANCELLED
+        scheduledPickupDate:
+          type: string
+          format: date
+        actualPickupDate:
+          type: string
+          format: date
+        pickupAddress:
+          maxLength: 500
+          minLength: 0
+          type: string
+        pickupCity:
+          maxLength: 100
+          minLength: 0
+          type: string
+        pickupState:
+          maxLength: 100
+          minLength: 0
+          type: string
+        pickupPostalCode:
+          maxLength: 20
+          minLength: 0
+          type: string
+        pickupCountry:
+          maxLength: 100
+          minLength: 0
+          type: string
+        carrierName:
+          maxLength: 200
+          minLength: 0
+          type: string
+        trackingNumber:
+          maxLength: 200
+          minLength: 0
+          type: string
+        collectorName:
+          maxLength: 200
+          minLength: 0
+          type: string
+        collectorPhone:
+          maxLength: 50
+          minLength: 0
+          pattern: ^[+]?[0-9\s\-()]*$
+          type: string
+        collectorEmail:
+          maxLength: 200
+          minLength: 0
+          type: string
+        signatureReceived:
+          type: boolean
+        pickupConditionNotes:
+          maxLength: 2000
+          minLength: 0
+          type: string
+        pickupPhotoUrls:
+          type: array
+          items:
+            maxLength: 500
+            minLength: 0
+            type: string
+        failedPickupReason:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        pickupAttempts:
+          minimum: 0
+          type: integer
+          format: int32
+        note:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DeliveryRecordDTO:
+      required:
+        - assetFinanceAssetId
+        - deliveryAddress
+        - deliveryStatus
+      type: object
+      properties:
+        deliveryRecordId:
+          type: string
+          format: uuid
+          readOnly: true
+        assetFinanceAssetId:
+          type: string
+          format: uuid
+        deliveryStatus:
+          type: string
+          enum:
+            - PENDING
+            - SCHEDULED
+            - IN_TRANSIT
+            - DELIVERED
+            - FAILED
+            - CANCELLED
+        scheduledDeliveryDate:
+          type: string
+          format: date
+        actualDeliveryDate:
+          type: string
+          format: date
+        deliveryAddress:
+          maxLength: 500
+          minLength: 0
+          type: string
+        deliveryCity:
+          maxLength: 100
+          minLength: 0
+          type: string
+        deliveryState:
+          maxLength: 100
+          minLength: 0
+          type: string
+        deliveryPostalCode:
+          maxLength: 20
+          minLength: 0
+          type: string
+        deliveryCountry:
+          maxLength: 100
+          minLength: 0
+          type: string
+        carrierName:
+          maxLength: 200
+          minLength: 0
+          type: string
+        trackingNumber:
+          maxLength: 200
+          minLength: 0
+          type: string
+        recipientName:
+          maxLength: 200
+          minLength: 0
+          type: string
+        recipientPhone:
+          maxLength: 50
+          minLength: 0
+          pattern: ^[+]?[0-9\s\-()]*$
+          type: string
+        recipientEmail:
+          maxLength: 200
+          minLength: 0
+          type: string
+        signatureReceived:
+          type: boolean
+        deliveryConditionNotes:
+          maxLength: 2000
+          minLength: 0
+          type: string
+        deliveryPhotoUrls:
+          type: array
+          items:
+            maxLength: 500
+            minLength: 0
+            type: string
+        failedDeliveryReason:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        deliveryAttempts:
+          minimum: 0
+          type: integer
+          format: int32
+        note:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    FilterOptions:
+      type: object
+      properties:
+        caseInsensitiveStrings:
+          type: boolean
+        includeInheritedFields:
+          type: boolean
+      description: Filter options for customizing filter behavior
+    FilterRequestAssetFinanceAgreementDTO:
+      required:
+        - pagination
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+        rangeFilters:
+          $ref: '#/components/schemas/RangeFilter'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+        options:
+          $ref: '#/components/schemas/FilterOptions'
+      description: Generic filter request that includes both filter criteria and pagination
+    PaginationRequest:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          description: The zero-based page number to retrieve.
+          format: int32
+          example: 0
+          default: 0
+        pageSize:
+          type: integer
+          description: The number of items per page.
+          format: int32
+          example: 10
+          default: 10
+        sortBy:
+          type: string
+          description: The field to sort the results by.
+          example: name
+        sortDirection:
+          type: string
+          description: The direction of sorting, either ASC or DESC.
+          example: DESC
+          default: DESC
+      description: Represents a pagination request for retrieving paginated results, including page number, size, sort field, and direction.
+    RangeFilter:
+      type: object
+      properties:
+        ranges:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RangeObject'
+          description: Map of field names to their range criteria
+      description: Represents range filters for numeric fields
+    RangeObject:
+      type: object
+      properties:
+        from:
+          type: object
+          description: Start value of the range
+        to:
+          type: object
+          description: End value of the range
+      description: Represents a range with from and to values
     PaginationResponseAssetFinanceAgreementDTO:
       type: object
       properties:
@@ -2178,6 +1948,20 @@ components:
           description: The current page number, typically zero-based.
           format: int32
       description: Represents a paginated response containing a list of items and pagination metadata.
+    FilterRequestEndOptionDTO:
+      required:
+        - pagination
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/EndOptionDTO'
+        rangeFilters:
+          $ref: '#/components/schemas/RangeFilter'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+        options:
+          $ref: '#/components/schemas/FilterOptions'
+      description: Generic filter request that includes both filter criteria and pagination
     PaginationResponseEndOptionDTO:
       type: object
       properties:
@@ -2199,6 +1983,20 @@ components:
           description: The current page number, typically zero-based.
           format: int32
       description: Represents a paginated response containing a list of items and pagination metadata.
+    FilterRequestAssetFinanceAssetDTO:
+      required:
+        - pagination
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/AssetFinanceAssetDTO'
+        rangeFilters:
+          $ref: '#/components/schemas/RangeFilter'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+        options:
+          $ref: '#/components/schemas/FilterOptions'
+      description: Generic filter request that includes both filter criteria and pagination
     PaginationResponseAssetFinanceAssetDTO:
       type: object
       properties:
@@ -2220,6 +2018,20 @@ components:
           description: The current page number, typically zero-based.
           format: int32
       description: Represents a paginated response containing a list of items and pagination metadata.
+    FilterRequestUsageRecordDTO:
+      required:
+        - pagination
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/UsageRecordDTO'
+        rangeFilters:
+          $ref: '#/components/schemas/RangeFilter'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+        options:
+          $ref: '#/components/schemas/FilterOptions'
+      description: Generic filter request that includes both filter criteria and pagination
     PaginationResponseUsageRecordDTO:
       type: object
       properties:
@@ -2241,6 +2053,20 @@ components:
           description: The current page number, typically zero-based.
           format: int32
       description: Represents a paginated response containing a list of items and pagination metadata.
+    FilterRequestServiceEventDTO:
+      required:
+        - pagination
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/ServiceEventDTO'
+        rangeFilters:
+          $ref: '#/components/schemas/RangeFilter'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+        options:
+          $ref: '#/components/schemas/FilterOptions'
+      description: Generic filter request that includes both filter criteria and pagination
     PaginationResponseServiceEventDTO:
       type: object
       properties:
@@ -2262,6 +2088,20 @@ components:
           description: The current page number, typically zero-based.
           format: int32
       description: Represents a paginated response containing a list of items and pagination metadata.
+    FilterRequestReturnRecordDTO:
+      required:
+        - pagination
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/ReturnRecordDTO'
+        rangeFilters:
+          $ref: '#/components/schemas/RangeFilter'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+        options:
+          $ref: '#/components/schemas/FilterOptions'
+      description: Generic filter request that includes both filter criteria and pagination
     PaginationResponseReturnRecordDTO:
       type: object
       properties:
@@ -2270,6 +2110,76 @@ components:
           description: The list of items for the current page.
           items:
             $ref: '#/components/schemas/ReturnRecordDTO'
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: The current page number, typically zero-based.
+          format: int32
+      description: Represents a paginated response containing a list of items and pagination metadata.
+    FilterRequestPickupRecordDTO:
+      required:
+        - pagination
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/PickupRecordDTO'
+        rangeFilters:
+          $ref: '#/components/schemas/RangeFilter'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+        options:
+          $ref: '#/components/schemas/FilterOptions'
+      description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponsePickupRecordDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: '#/components/schemas/PickupRecordDTO'
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: The current page number, typically zero-based.
+          format: int32
+      description: Represents a paginated response containing a list of items and pagination metadata.
+    FilterRequestDeliveryRecordDTO:
+      required:
+        - pagination
+      type: object
+      properties:
+        filters:
+          $ref: '#/components/schemas/DeliveryRecordDTO'
+        rangeFilters:
+          $ref: '#/components/schemas/RangeFilter'
+        pagination:
+          $ref: '#/components/schemas/PaginationRequest'
+        options:
+          $ref: '#/components/schemas/FilterOptions'
+      description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponseDeliveryRecordDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: '#/components/schemas/DeliveryRecordDTO'
         totalElements:
           type: integer
           description: The total number of elements across all pages.
