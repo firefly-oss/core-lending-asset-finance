@@ -19,7 +19,7 @@ package com.firefly.core.lending.assetfinance.core.services;
 
 import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
-import com.firefly.core.lending.assetfinance.interfaces.dtos.event.v1.ServiceEventDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.ServiceEventDTO;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;

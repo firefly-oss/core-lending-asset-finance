@@ -15,12 +15,16 @@
  */
 
 
-package com.firefly.core.lending.assetfinance.interfaces.enums.event.v1;
+package com.firefly.core.lending.assetfinance.models.repositories;
 
-public enum EventTypeEnum {
-    MAINTENANCE,
-    DAMAGE,
-    RETURN,
-    INSPECTION,
-    MODIFICATION
+import com.firefly.core.lending.assetfinance.models.entities.PickupRecord;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
+
+import java.util.UUID;
+
+@Repository
+public interface PickupRecordRepository extends BaseRepository<PickupRecord> {
+    Flux<PickupRecord> findByAssetFinanceAssetId(UUID assetFinanceAssetId);
 }
+

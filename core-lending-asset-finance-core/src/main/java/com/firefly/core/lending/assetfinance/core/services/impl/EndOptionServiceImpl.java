@@ -22,7 +22,7 @@ import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.lending.assetfinance.core.mappers.EndOptionMapper;
 import com.firefly.core.lending.assetfinance.core.services.EndOptionService;
-import com.firefly.core.lending.assetfinance.interfaces.dtos.option.v1.EndOptionDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.EndOptionDTO;
 import com.firefly.core.lending.assetfinance.models.entities.EndOption;
 import com.firefly.core.lending.assetfinance.models.repositories.EndOptionRepository;
 import lombok.RequiredArgsConstructor;

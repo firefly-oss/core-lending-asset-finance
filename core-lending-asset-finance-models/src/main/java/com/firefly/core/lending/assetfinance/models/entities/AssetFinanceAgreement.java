@@ -17,8 +17,8 @@
 
 package com.firefly.core.lending.assetfinance.models.entities;
 
-import com.firefly.core.lending.assetfinance.interfaces.enums.agreement.v1.AgreementStatusEnum;
-import com.firefly.core.lending.assetfinance.interfaces.enums.finance.v1.FinanceTypeEnum;
+import com.firefly.core.lending.assetfinance.interfaces.enums.AgreementStatusEnum;
+import com.firefly.core.lending.assetfinance.interfaces.enums.FinanceTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

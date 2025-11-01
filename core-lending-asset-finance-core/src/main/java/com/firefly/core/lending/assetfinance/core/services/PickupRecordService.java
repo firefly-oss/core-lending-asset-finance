@@ -19,20 +19,21 @@ package com.firefly.core.lending.assetfinance.core.services;
 
 import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.queries.PaginationResponse;
-import com.firefly.core.lending.assetfinance.interfaces.dtos.AssetFinanceAgreementDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.PickupRecordDTO;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-public interface AssetFinanceAgreementService {
+public interface PickupRecordService {
 
-    Mono<PaginationResponse<AssetFinanceAgreementDTO>> findAll(FilterRequest<AssetFinanceAgreementDTO> filterRequest);
+    Mono<PaginationResponse<PickupRecordDTO>> findAll(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, FilterRequest<PickupRecordDTO> filterRequest);
 
-    Mono<AssetFinanceAgreementDTO> create(AssetFinanceAgreementDTO dto);
+    Mono<PickupRecordDTO> create(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, PickupRecordDTO dto);
 
-    Mono<AssetFinanceAgreementDTO> getById(UUID assetFinanceAgreementId);
+    Mono<PickupRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId);
 
-    Mono<AssetFinanceAgreementDTO> update(UUID assetFinanceAgreementId, AssetFinanceAgreementDTO dto);
+    Mono<PickupRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId, PickupRecordDTO dto);
 
-    Mono<Void> delete(UUID assetFinanceAgreementId);
+    Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId);
 }
+

@@ -17,7 +17,7 @@
 
 package com.firefly.core.lending.assetfinance.core.mappers;
 
-import com.firefly.core.lending.assetfinance.interfaces.dtos.event.v1.ServiceEventDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.ServiceEventDTO;
 import com.firefly.core.lending.assetfinance.models.entities.ServiceEvent;
 import org.mapstruct.Mapper;
 

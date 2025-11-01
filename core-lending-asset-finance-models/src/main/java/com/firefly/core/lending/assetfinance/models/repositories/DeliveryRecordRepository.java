@@ -15,9 +15,16 @@
  */
 
 
-package com.firefly.core.lending.assetfinance.interfaces.enums.finance.v1;
+package com.firefly.core.lending.assetfinance.models.repositories;
 
-public enum FinanceTypeEnum {
-    RENTING,
-    LEASING
+import com.firefly.core.lending.assetfinance.models.entities.DeliveryRecord;
+import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
+
+import java.util.UUID;
+
+@Repository
+public interface DeliveryRecordRepository extends BaseRepository<DeliveryRecord> {
+    Flux<DeliveryRecord> findByAssetFinanceAssetId(UUID assetFinanceAssetId);
 }
+

@@ -22,7 +22,7 @@ import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.lending.assetfinance.core.mappers.AssetFinanceAgreementMapper;
 import com.firefly.core.lending.assetfinance.core.services.AssetFinanceAgreementService;
-import com.firefly.core.lending.assetfinance.interfaces.dtos.agreement.v1.AssetFinanceAgreementDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.AssetFinanceAgreementDTO;
 import com.firefly.core.lending.assetfinance.models.entities.AssetFinanceAgreement;
 import com.firefly.core.lending.assetfinance.models.repositories.AssetFinanceAgreementRepository;
 import lombok.RequiredArgsConstructor;

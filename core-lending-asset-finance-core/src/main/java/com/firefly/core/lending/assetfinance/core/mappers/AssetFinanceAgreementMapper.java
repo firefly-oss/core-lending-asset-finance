@@ -17,7 +17,7 @@
 
 package com.firefly.core.lending.assetfinance.core.mappers;
 
-import com.firefly.core.lending.assetfinance.interfaces.dtos.agreement.v1.AssetFinanceAgreementDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.AssetFinanceAgreementDTO;
 import com.firefly.core.lending.assetfinance.models.entities.AssetFinanceAgreement;
 import org.mapstruct.Mapper;
 

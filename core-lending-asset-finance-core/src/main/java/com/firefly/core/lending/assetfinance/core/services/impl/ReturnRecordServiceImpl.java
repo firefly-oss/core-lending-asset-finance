@@ -22,7 +22,7 @@ import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.lending.assetfinance.core.mappers.ReturnRecordMapper;
 import com.firefly.core.lending.assetfinance.core.services.ReturnRecordService;
-import com.firefly.core.lending.assetfinance.interfaces.dtos.usage.v1.ReturnRecordDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.ReturnRecordDTO;
 import com.firefly.core.lending.assetfinance.models.entities.ReturnRecord;
 import com.firefly.core.lending.assetfinance.models.repositories.ReturnRecordRepository;
 import lombok.RequiredArgsConstructor;

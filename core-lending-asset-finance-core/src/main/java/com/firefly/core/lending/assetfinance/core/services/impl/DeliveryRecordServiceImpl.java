@@ -20,11 +20,11 @@ package com.firefly.core.lending.assetfinance.core.services.impl;
 import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
-import com.firefly.core.lending.assetfinance.core.mappers.UsageRecordMapper;
-import com.firefly.core.lending.assetfinance.core.services.UsageRecordService;
-import com.firefly.core.lending.assetfinance.interfaces.dtos.UsageRecordDTO;
-import com.firefly.core.lending.assetfinance.models.entities.UsageRecord;
-import com.firefly.core.lending.assetfinance.models.repositories.UsageRecordRepository;
+import com.firefly.core.lending.assetfinance.core.mappers.DeliveryRecordMapper;
+import com.firefly.core.lending.assetfinance.core.services.DeliveryRecordService;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.DeliveryRecordDTO;
+import com.firefly.core.lending.assetfinance.models.entities.DeliveryRecord;
+import com.firefly.core.lending.assetfinance.models.repositories.DeliveryRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,21 +35,21 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UsageRecordServiceImpl implements UsageRecordService {
+public class DeliveryRecordServiceImpl implements DeliveryRecordService {
 
-    private final UsageRecordRepository repository;
-    private final UsageRecordMapper mapper;
+    private final DeliveryRecordRepository repository;
+    private final DeliveryRecordMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<UsageRecordDTO>> findAll(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, FilterRequest<UsageRecordDTO> filterRequest) {
+    public Mono<PaginationResponse<DeliveryRecordDTO>> findAll(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, FilterRequest<DeliveryRecordDTO> filterRequest) {
         return FilterUtils.createFilter(
-                UsageRecord.class,
+                DeliveryRecord.class,
                 mapper::toDTO
         ).filter(filterRequest);
     }
 
     @Override
-    public Mono<UsageRecordDTO> create(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UsageRecordDTO dto) {
+    public Mono<DeliveryRecordDTO> create(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, DeliveryRecordDTO dto) {
         return Mono.just(dto)
                 .doOnNext(d -> d.setAssetFinanceAssetId(assetFinanceAssetId))
                 .map(mapper::toEntity)
@@ -58,17 +58,17 @@ public class UsageRecordServiceImpl implements UsageRecordService {
     }
 
     @Override
-    public Mono<UsageRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId) {
-        return repository.findById(usageRecordId)
+    public Mono<DeliveryRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID deliveryRecordId) {
+        return repository.findById(deliveryRecordId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<UsageRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId, UsageRecordDTO dto) {
-        return repository.findById(usageRecordId)
-                .flatMap(existing -> {
-                    UsageRecord updatedEntity = mapper.toEntity(dto);
-                    updatedEntity.setUsageRecordId(existing.getUsageRecordId());
+    public Mono<DeliveryRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID deliveryRecordId, DeliveryRecordDTO dto) {
+        return repository.findById(deliveryRecordId)
+                .flatMap(existingRecord -> {
+                    DeliveryRecord updatedEntity = mapper.toEntity(dto);
+                    updatedEntity.setDeliveryRecordId(existingRecord.getDeliveryRecordId());
                     updatedEntity.setAssetFinanceAssetId(assetFinanceAssetId);
                     return repository.save(updatedEntity);
                 })
@@ -76,8 +76,9 @@ public class UsageRecordServiceImpl implements UsageRecordService {
     }
 
     @Override
-    public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId) {
-        return repository.findById(usageRecordId)
+    public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID deliveryRecordId) {
+        return repository.findById(deliveryRecordId)
                 .flatMap(repository::delete);
     }
 }
+

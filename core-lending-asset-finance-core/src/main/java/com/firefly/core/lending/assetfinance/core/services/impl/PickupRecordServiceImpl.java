@@ -20,11 +20,11 @@ package com.firefly.core.lending.assetfinance.core.services.impl;
 import com.firefly.common.core.filters.FilterRequest;
 import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
-import com.firefly.core.lending.assetfinance.core.mappers.UsageRecordMapper;
-import com.firefly.core.lending.assetfinance.core.services.UsageRecordService;
-import com.firefly.core.lending.assetfinance.interfaces.dtos.UsageRecordDTO;
-import com.firefly.core.lending.assetfinance.models.entities.UsageRecord;
-import com.firefly.core.lending.assetfinance.models.repositories.UsageRecordRepository;
+import com.firefly.core.lending.assetfinance.core.mappers.PickupRecordMapper;
+import com.firefly.core.lending.assetfinance.core.services.PickupRecordService;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.PickupRecordDTO;
+import com.firefly.core.lending.assetfinance.models.entities.PickupRecord;
+import com.firefly.core.lending.assetfinance.models.repositories.PickupRecordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,21 +35,21 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UsageRecordServiceImpl implements UsageRecordService {
+public class PickupRecordServiceImpl implements PickupRecordService {
 
-    private final UsageRecordRepository repository;
-    private final UsageRecordMapper mapper;
+    private final PickupRecordRepository repository;
+    private final PickupRecordMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<UsageRecordDTO>> findAll(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, FilterRequest<UsageRecordDTO> filterRequest) {
+    public Mono<PaginationResponse<PickupRecordDTO>> findAll(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, FilterRequest<PickupRecordDTO> filterRequest) {
         return FilterUtils.createFilter(
-                UsageRecord.class,
+                PickupRecord.class,
                 mapper::toDTO
         ).filter(filterRequest);
     }
 
     @Override
-    public Mono<UsageRecordDTO> create(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UsageRecordDTO dto) {
+    public Mono<PickupRecordDTO> create(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, PickupRecordDTO dto) {
         return Mono.just(dto)
                 .doOnNext(d -> d.setAssetFinanceAssetId(assetFinanceAssetId))
                 .map(mapper::toEntity)
@@ -58,17 +58,17 @@ public class UsageRecordServiceImpl implements UsageRecordService {
     }
 
     @Override
-    public Mono<UsageRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId) {
-        return repository.findById(usageRecordId)
+    public Mono<PickupRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId) {
+        return repository.findById(pickupRecordId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<UsageRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId, UsageRecordDTO dto) {
-        return repository.findById(usageRecordId)
-                .flatMap(existing -> {
-                    UsageRecord updatedEntity = mapper.toEntity(dto);
-                    updatedEntity.setUsageRecordId(existing.getUsageRecordId());
+    public Mono<PickupRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId, PickupRecordDTO dto) {
+        return repository.findById(pickupRecordId)
+                .flatMap(existingRecord -> {
+                    PickupRecord updatedEntity = mapper.toEntity(dto);
+                    updatedEntity.setPickupRecordId(existingRecord.getPickupRecordId());
                     updatedEntity.setAssetFinanceAssetId(assetFinanceAssetId);
                     return repository.save(updatedEntity);
                 })
@@ -76,8 +76,9 @@ public class UsageRecordServiceImpl implements UsageRecordService {
     }
 
     @Override
-    public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId) {
-        return repository.findById(usageRecordId)
+    public Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId) {
+        return repository.findById(pickupRecordId)
                 .flatMap(repository::delete);
     }
 }
+

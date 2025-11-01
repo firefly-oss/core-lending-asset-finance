@@ -17,7 +17,7 @@
 
 package com.firefly.core.lending.assetfinance.models.entities;
 
-import com.firefly.core.lending.assetfinance.interfaces.enums.event.v1.EventTypeEnum;
+import com.firefly.core.lending.assetfinance.interfaces.enums.EventTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -22,7 +22,7 @@ import com.firefly.common.core.filters.FilterUtils;
 import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.lending.assetfinance.core.mappers.ServiceEventMapper;
 import com.firefly.core.lending.assetfinance.core.services.ServiceEventService;
-import com.firefly.core.lending.assetfinance.interfaces.dtos.event.v1.ServiceEventDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.ServiceEventDTO;
 import com.firefly.core.lending.assetfinance.models.entities.ServiceEvent;
 import com.firefly.core.lending.assetfinance.models.repositories.ServiceEventRepository;
 import lombok.RequiredArgsConstructor;

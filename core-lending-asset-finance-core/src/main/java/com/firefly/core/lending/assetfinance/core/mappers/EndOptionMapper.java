@@ -17,7 +17,7 @@
 
 package com.firefly.core.lending.assetfinance.core.mappers;
 
-import com.firefly.core.lending.assetfinance.interfaces.dtos.option.v1.EndOptionDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.EndOptionDTO;
 import com.firefly.core.lending.assetfinance.models.entities.EndOption;
 import org.mapstruct.Mapper;
 

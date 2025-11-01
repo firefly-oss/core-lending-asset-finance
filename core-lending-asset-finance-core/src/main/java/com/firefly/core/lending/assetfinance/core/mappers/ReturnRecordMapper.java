@@ -17,7 +17,7 @@
 
 package com.firefly.core.lending.assetfinance.core.mappers;
 
-import com.firefly.core.lending.assetfinance.interfaces.dtos.usage.v1.ReturnRecordDTO;
+import com.firefly.core.lending.assetfinance.interfaces.dtos.ReturnRecordDTO;
 import com.firefly.core.lending.assetfinance.models.entities.ReturnRecord;
 import org.mapstruct.Mapper;
 
