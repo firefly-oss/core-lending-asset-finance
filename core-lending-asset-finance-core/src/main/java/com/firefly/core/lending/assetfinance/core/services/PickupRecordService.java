@@ -24,16 +24,65 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+/**
+ * Service interface for managing Pickup Records.
+ * <p>
+ * Provides operations for creating, reading, updating, and deleting pickup records
+ * that track the logistics of collecting assets from customers. Pickup records capture
+ * information about collection scheduling, carrier, tracking, pickup dates, and handover details.
+ * </p>
+ */
 public interface PickupRecordService {
 
+    /**
+     * Retrieve a paginated list of pickup records for a specific asset with optional filtering and sorting.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param filterRequest the filter criteria including pagination, sorting, and search parameters
+     * @return a Mono emitting a PaginationResponse containing the list of pickup records
+     */
     Mono<PaginationResponse<PickupRecordDTO>> findAll(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, FilterRequest<PickupRecordDTO> filterRequest);
 
+    /**
+     * Create a new pickup record for a specific asset.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param dto the pickup record data to create
+     * @return a Mono emitting the created pickup record with generated ID and timestamps
+     */
     Mono<PickupRecordDTO> create(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, PickupRecordDTO dto);
 
+    /**
+     * Retrieve a specific pickup record by its unique identifier.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param pickupRecordId the unique identifier of the pickup record
+     * @return a Mono emitting the pickup record if found
+     */
     Mono<PickupRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId);
 
+    /**
+     * Update an existing pickup record.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param pickupRecordId the unique identifier of the pickup record to update
+     * @param dto the updated pickup record data
+     * @return a Mono emitting the updated pickup record
+     */
     Mono<PickupRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId, PickupRecordDTO dto);
 
+    /**
+     * Delete a pickup record.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param pickupRecordId the unique identifier of the pickup record to delete
+     * @return a Mono that completes when the deletion is successful
+     */
     Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID pickupRecordId);
 }
 

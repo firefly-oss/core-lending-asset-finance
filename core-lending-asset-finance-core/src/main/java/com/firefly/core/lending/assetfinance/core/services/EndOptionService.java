@@ -24,15 +24,59 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+/**
+ * Service interface for managing End Options.
+ * <p>
+ * Provides operations for creating, reading, updating, and deleting end-of-term options
+ * for asset finance agreements. End options define what happens at the end of a lease term,
+ * such as purchase options, return requirements, or renewal terms.
+ * </p>
+ */
 public interface EndOptionService {
 
+    /**
+     * Retrieve a paginated list of end options for a specific agreement with optional filtering and sorting.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param filterRequest the filter criteria including pagination, sorting, and search parameters
+     * @return a Mono emitting a PaginationResponse containing the list of end options
+     */
     Mono<PaginationResponse<EndOptionDTO>> findAll(UUID assetFinanceAgreementId, FilterRequest<EndOptionDTO> filterRequest);
 
+    /**
+     * Create a new end option for a specific agreement.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param dto the end option data to create
+     * @return a Mono emitting the created end option with generated ID and timestamps
+     */
     Mono<EndOptionDTO> create(UUID assetFinanceAgreementId, EndOptionDTO dto);
 
+    /**
+     * Retrieve a specific end option by its unique identifier.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param endOptionId the unique identifier of the end option
+     * @return a Mono emitting the end option if found
+     */
     Mono<EndOptionDTO> getById(UUID assetFinanceAgreementId, UUID endOptionId);
 
+    /**
+     * Update an existing end option.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param endOptionId the unique identifier of the end option to update
+     * @param dto the updated end option data
+     * @return a Mono emitting the updated end option
+     */
     Mono<EndOptionDTO> update(UUID assetFinanceAgreementId, UUID endOptionId, EndOptionDTO dto);
 
+    /**
+     * Delete an end option.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param endOptionId the unique identifier of the end option to delete
+     * @return a Mono that completes when the deletion is successful
+     */
     Mono<Void> delete(UUID assetFinanceAgreementId, UUID endOptionId);
 }

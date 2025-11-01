@@ -24,15 +24,65 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+/**
+ * Service interface for managing Usage Records.
+ * <p>
+ * Provides operations for creating, reading, updating, and deleting usage records
+ * that track the utilization of financed assets. Usage records capture metrics such as
+ * mileage for vehicles, operating hours for equipment, or other usage-based measurements
+ * that may affect lease terms, maintenance schedules, or end-of-term charges.
+ * </p>
+ */
 public interface UsageRecordService {
 
+    /**
+     * Retrieve a paginated list of usage records for a specific asset with optional filtering and sorting.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param filterRequest the filter criteria including pagination, sorting, and search parameters
+     * @return a Mono emitting a PaginationResponse containing the list of usage records
+     */
     Mono<PaginationResponse<UsageRecordDTO>> findAll(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, FilterRequest<UsageRecordDTO> filterRequest);
 
+    /**
+     * Create a new usage record for a specific asset.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param dto the usage record data to create
+     * @return a Mono emitting the created usage record with generated ID and timestamps
+     */
     Mono<UsageRecordDTO> create(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UsageRecordDTO dto);
 
+    /**
+     * Retrieve a specific usage record by its unique identifier.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param usageRecordId the unique identifier of the usage record
+     * @return a Mono emitting the usage record if found
+     */
     Mono<UsageRecordDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId);
 
+    /**
+     * Update an existing usage record.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param usageRecordId the unique identifier of the usage record to update
+     * @param dto the updated usage record data
+     * @return a Mono emitting the updated usage record
+     */
     Mono<UsageRecordDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId, UsageRecordDTO dto);
 
+    /**
+     * Delete a usage record.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param usageRecordId the unique identifier of the usage record to delete
+     * @return a Mono that completes when the deletion is successful
+     */
     Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID usageRecordId);
 }

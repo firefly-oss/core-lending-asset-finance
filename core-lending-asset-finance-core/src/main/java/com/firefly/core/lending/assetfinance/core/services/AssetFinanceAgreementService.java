@@ -24,15 +24,58 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+/**
+ * Service interface for managing Asset Finance Agreements.
+ * <p>
+ * Provides operations for creating, reading, updating, and deleting asset finance agreements
+ * for both leasing and renting finance types. Agreements represent the contractual relationship
+ * between the lender and borrower for financing assets.
+ * </p>
+ */
 public interface AssetFinanceAgreementService {
 
+    /**
+     * Retrieve a paginated list of asset finance agreements with optional filtering and sorting.
+     *
+     * @param filterRequest the filter criteria including pagination, sorting, and search parameters
+     * @return a Mono emitting a PaginationResponse containing the list of agreements
+     */
     Mono<PaginationResponse<AssetFinanceAgreementDTO>> findAll(FilterRequest<AssetFinanceAgreementDTO> filterRequest);
 
+    /**
+     * Create a new asset finance agreement.
+     *
+     * @param dto the agreement data to create
+     * @return a Mono emitting the created agreement with generated ID and timestamps
+     */
     Mono<AssetFinanceAgreementDTO> create(AssetFinanceAgreementDTO dto);
 
+    /**
+     * Retrieve a specific asset finance agreement by its unique identifier.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the agreement
+     * @return a Mono emitting the agreement if found
+     */
     Mono<AssetFinanceAgreementDTO> getById(UUID assetFinanceAgreementId);
 
+    /**
+     * Update an existing asset finance agreement.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the agreement to update
+     * @param dto the updated agreement data
+     * @return a Mono emitting the updated agreement
+     */
     Mono<AssetFinanceAgreementDTO> update(UUID assetFinanceAgreementId, AssetFinanceAgreementDTO dto);
 
+    /**
+     * Delete an asset finance agreement.
+     * <p>
+     * Note: This will cascade delete all related assets, end options, and associated records
+     * due to database foreign key constraints.
+     * </p>
+     *
+     * @param assetFinanceAgreementId the unique identifier of the agreement to delete
+     * @return a Mono that completes when the deletion is successful
+     */
     Mono<Void> delete(UUID assetFinanceAgreementId);
 }

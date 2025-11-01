@@ -24,15 +24,64 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+/**
+ * Service interface for managing Service Events.
+ * <p>
+ * Provides operations for creating, reading, updating, and deleting service events
+ * that track maintenance, repairs, damage, and other service-related activities for assets.
+ * Service events help maintain a complete history of asset servicing and condition changes.
+ * </p>
+ */
 public interface ServiceEventService {
 
+    /**
+     * Retrieve a paginated list of service events for a specific asset with optional filtering and sorting.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param filterRequest the filter criteria including pagination, sorting, and search parameters
+     * @return a Mono emitting a PaginationResponse containing the list of service events
+     */
     Mono<PaginationResponse<ServiceEventDTO>> findAll(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, FilterRequest<ServiceEventDTO> filterRequest);
 
+    /**
+     * Create a new service event for a specific asset.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param dto the service event data to create
+     * @return a Mono emitting the created service event with generated ID and timestamps
+     */
     Mono<ServiceEventDTO> create(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, ServiceEventDTO dto);
 
+    /**
+     * Retrieve a specific service event by its unique identifier.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param serviceEventId the unique identifier of the service event
+     * @return a Mono emitting the service event if found
+     */
     Mono<ServiceEventDTO> getById(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID serviceEventId);
 
+    /**
+     * Update an existing service event.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param serviceEventId the unique identifier of the service event to update
+     * @param dto the updated service event data
+     * @return a Mono emitting the updated service event
+     */
     Mono<ServiceEventDTO> update(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID serviceEventId, ServiceEventDTO dto);
 
+    /**
+     * Delete a service event.
+     *
+     * @param assetFinanceAgreementId the unique identifier of the parent agreement
+     * @param assetFinanceAssetId the unique identifier of the parent asset
+     * @param serviceEventId the unique identifier of the service event to delete
+     * @return a Mono that completes when the deletion is successful
+     */
     Mono<Void> delete(UUID assetFinanceAgreementId, UUID assetFinanceAssetId, UUID serviceEventId);
 }
