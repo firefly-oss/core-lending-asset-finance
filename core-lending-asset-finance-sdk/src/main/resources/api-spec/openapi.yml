@@ -34,10 +34,12 @@ paths:
       tags:
         - AssetFinanceAgreement
       summary: Get an asset finance agreement by ID
+      description: Retrieve a specific asset finance agreement by its unique identifier
       operationId: getById
       parameters:
         - name: assetFinanceAgreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
@@ -50,19 +52,25 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Agreement found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+        '404':
+          description: Agreement not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - AssetFinanceAgreement
       summary: Update an existing asset finance agreement
+      description: Update all fields of an existing asset finance agreement
       operationId: update
       parameters:
         - name: assetFinanceAgreementId
           in: path
+          description: Unique identifier of the agreement to update
           required: true
           schema:
             type: string
@@ -81,19 +89,27 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Agreement updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Agreement not found
+        '500':
+          description: Internal server error
     delete:
       tags:
         - AssetFinanceAgreement
       summary: Delete an asset finance agreement
+      description: Permanently delete an asset finance agreement and all related data (cascading delete)
       operationId: delete
       parameters:
         - name: assetFinanceAgreementId
           in: path
+          description: Unique identifier of the agreement to delete
           required: true
           schema:
             type: string
@@ -105,23 +121,30 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Agreement deleted successfully
+        '404':
+          description: Agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/end-options/{optionId}:
     get:
       tags:
         - EndOption
       summary: Get an end option by ID
+      description: Retrieve a specific lease-end purchase option by its unique identifier
       operationId: getById_1
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: optionId
           in: path
+          description: Unique identifier of the end option
           required: true
           schema:
             type: string
@@ -134,25 +157,32 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: End option found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/EndOptionDTO'
+        '404':
+          description: End option or agreement not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - EndOption
       summary: Update an existing end option
+      description: Update all fields of an existing lease-end purchase option
       operationId: update_1
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: optionId
           in: path
+          description: Unique identifier of the end option to update
           required: true
           schema:
             type: string
@@ -171,25 +201,34 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: End option updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/EndOptionDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: End option or agreement not found
+        '500':
+          description: Internal server error
     delete:
       tags:
         - EndOption
       summary: Delete an end option
+      description: Permanently delete a lease-end purchase option
       operationId: delete_1
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: optionId
           in: path
+          description: Unique identifier of the end option to delete
           required: true
           schema:
             type: string
@@ -201,23 +240,30 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '204':
+          description: End option deleted successfully
+        '404':
+          description: End option or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}:
     get:
       tags:
         - AssetFinanceAsset
       summary: Get an asset by ID
+      description: Retrieve a specific asset by its unique identifier
       operationId: getById_2
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
@@ -230,25 +276,32 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Asset found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AssetFinanceAssetDTO'
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - AssetFinanceAsset
       summary: Update an existing asset
+      description: Update all fields of an existing asset
       operationId: update_2
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset to update
           required: true
           schema:
             type: string
@@ -267,25 +320,34 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Asset updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AssetFinanceAssetDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
     delete:
       tags:
         - AssetFinanceAsset
       summary: Delete an asset
+      description: Permanently delete an asset and all related data (cascading delete)
       operationId: delete_2
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset to delete
           required: true
           schema:
             type: string
@@ -297,29 +359,37 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Asset deleted successfully
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/usage-records/{recordId}:
     get:
       tags:
         - UsageRecord
       summary: Get a usage record by ID
+      description: Retrieve a specific usage record by its unique identifier
       operationId: getById_3
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: recordId
           in: path
+          description: Unique identifier of the usage record
           required: true
           schema:
             type: string
@@ -332,31 +402,39 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Usage record found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/UsageRecordDTO'
+        '404':
+          description: Usage record, asset, or agreement not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - UsageRecord
       summary: Update an existing usage record
+      description: Update all fields of an existing usage record
       operationId: update_3
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: recordId
           in: path
+          description: Unique identifier of the usage record to update
           required: true
           schema:
             type: string
@@ -375,31 +453,41 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Usage record updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/UsageRecordDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Usage record, asset, or agreement not found
+        '500':
+          description: Internal server error
     delete:
       tags:
         - UsageRecord
       summary: Delete a usage record
+      description: Permanently delete a usage record
       operationId: delete_3
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: recordId
           in: path
+          description: Unique identifier of the usage record to delete
           required: true
           schema:
             type: string
@@ -411,29 +499,37 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Usage record deleted successfully
+        '404':
+          description: Usage record, asset, or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/service-events/{eventId}:
     get:
       tags:
         - ServiceEvent
       summary: Get a service event by ID
+      description: Retrieve a specific service event by its unique identifier
       operationId: getById_4
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: eventId
           in: path
+          description: Unique identifier of the service event
           required: true
           schema:
             type: string
@@ -446,31 +542,39 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Service event found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ServiceEventDTO'
+        '404':
+          description: Service event, asset, or agreement not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - ServiceEvent
       summary: Update an existing service event
+      description: Update all fields of an existing service event
       operationId: update_4
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: eventId
           in: path
+          description: Unique identifier of the service event to update
           required: true
           schema:
             type: string
@@ -489,31 +593,41 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Service event updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ServiceEventDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Service event, asset, or agreement not found
+        '500':
+          description: Internal server error
     delete:
       tags:
         - ServiceEvent
       summary: Delete a service event
+      description: Permanently delete a service event
       operationId: delete_4
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: eventId
           in: path
+          description: Unique identifier of the service event to delete
           required: true
           schema:
             type: string
@@ -525,29 +639,37 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Service event deleted successfully
+        '404':
+          description: Service event, asset, or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/return-records/{recordId}:
     get:
       tags:
         - ReturnRecord
       summary: Get a return record by ID
+      description: Retrieve a specific return record by its unique identifier
       operationId: getById_5
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: recordId
           in: path
+          description: Unique identifier of the return record
           required: true
           schema:
             type: string
@@ -560,31 +682,39 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Return record found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ReturnRecordDTO'
+        '404':
+          description: Return record, asset, or agreement not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - ReturnRecord
       summary: Update an existing return record
+      description: Update all fields of an existing return record
       operationId: update_5
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: recordId
           in: path
+          description: Unique identifier of the return record to update
           required: true
           schema:
             type: string
@@ -603,31 +733,41 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Return record updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ReturnRecordDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Return record, asset, or agreement not found
+        '500':
+          description: Internal server error
     delete:
       tags:
         - ReturnRecord
       summary: Delete a return record
+      description: Permanently delete a return record
       operationId: delete_5
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: recordId
           in: path
+          description: Unique identifier of the return record to delete
           required: true
           schema:
             type: string
@@ -639,29 +779,37 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Return record deleted successfully
+        '404':
+          description: Return record, asset, or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/pickup-records/{pickupRecordId}:
     get:
       tags:
         - PickupRecord
       summary: Get a pickup record by ID
+      description: Retrieve a specific pickup record by its unique identifier
       operationId: getById_6
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: pickupRecordId
           in: path
+          description: Unique identifier of the pickup record
           required: true
           schema:
             type: string
@@ -674,31 +822,39 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Pickup record found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/PickupRecordDTO'
+        '404':
+          description: Pickup record, asset, or agreement not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - PickupRecord
       summary: Update an existing pickup record
+      description: Update all fields of an existing pickup record
       operationId: update_6
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: pickupRecordId
           in: path
+          description: Unique identifier of the pickup record to update
           required: true
           schema:
             type: string
@@ -717,31 +873,41 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Pickup record updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/PickupRecordDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Pickup record, asset, or agreement not found
+        '500':
+          description: Internal server error
     delete:
       tags:
         - PickupRecord
       summary: Delete a pickup record
+      description: Permanently delete a pickup record
       operationId: delete_6
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: pickupRecordId
           in: path
+          description: Unique identifier of the pickup record to delete
           required: true
           schema:
             type: string
@@ -753,29 +919,37 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Pickup record deleted successfully
+        '404':
+          description: Pickup record, asset, or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/delivery-records/{deliveryRecordId}:
     get:
       tags:
         - DeliveryRecord
       summary: Get a delivery record by ID
+      description: Retrieve a specific delivery record by its unique identifier
       operationId: getById_7
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: deliveryRecordId
           in: path
+          description: Unique identifier of the delivery record
           required: true
           schema:
             type: string
@@ -788,31 +962,39 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Delivery record found
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/DeliveryRecordDTO'
+        '404':
+          description: Delivery record, asset, or agreement not found
+        '500':
+          description: Internal server error
     put:
       tags:
         - DeliveryRecord
       summary: Update an existing delivery record
+      description: Update all fields of an existing delivery record
       operationId: update_7
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: deliveryRecordId
           in: path
+          description: Unique identifier of the delivery record to update
           required: true
           schema:
             type: string
@@ -831,31 +1013,41 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Delivery record updated successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/DeliveryRecordDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Delivery record, asset, or agreement not found
+        '500':
+          description: Internal server error
     delete:
       tags:
         - DeliveryRecord
       summary: Delete a delivery record
+      description: Permanently delete a delivery record
       operationId: delete_7
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: deliveryRecordId
           in: path
+          description: Unique identifier of the delivery record to delete
           required: true
           schema:
             type: string
@@ -867,17 +1059,23 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Delivery record deleted successfully
+        '404':
+          description: Delivery record, asset, or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements:
     get:
       tags:
         - AssetFinanceAgreement
       summary: List/Search asset finance agreements
+      description: Retrieve a paginated list of asset finance agreements with optional filtering and sorting
       operationId: findAll
       parameters:
         - name: filterRequest
           in: query
+          description: Filter criteria for searching agreements
           required: true
           schema:
             $ref: '#/components/schemas/FilterRequestAssetFinanceAgreementDTO'
@@ -889,15 +1087,20 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Successfully retrieved list of agreements
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/PaginationResponseAssetFinanceAgreementDTO'
+                $ref: '#/components/schemas/PaginationResponse'
+        '400':
+          description: Invalid filter request
+        '500':
+          description: Internal server error
     post:
       tags:
         - AssetFinanceAgreement
       summary: Create a new asset finance agreement
+      description: Create a new asset finance agreement (leasing or renting)
       operationId: create
       parameters:
         - name: X-Idempotency-Key
@@ -914,26 +1117,33 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Agreement created successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+        '400':
+          description: Invalid input data
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/end-options:
     get:
       tags:
         - EndOption
       summary: List/Search end options for an agreement
+      description: Retrieve a paginated list of lease-end purchase options for a specific agreement
       operationId: findAll_1
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: filterRequest
           in: query
+          description: Filter criteria for searching end options
           required: true
           schema:
             $ref: '#/components/schemas/FilterRequestEndOptionDTO'
@@ -945,19 +1155,27 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Successfully retrieved list of end options
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/PaginationResponseEndOptionDTO'
+                $ref: '#/components/schemas/PaginationResponse'
+        '400':
+          description: Invalid filter request
+        '404':
+          description: Agreement not found
+        '500':
+          description: Internal server error
     post:
       tags:
         - EndOption
       summary: Create a new end option for an agreement
+      description: Create a new lease-end purchase option for an agreement
       operationId: create_1
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
@@ -976,26 +1194,35 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: End option created successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/EndOptionDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets:
     get:
       tags:
         - AssetFinanceAsset
       summary: List/Search assets for an agreement
+      description: Retrieve a paginated list of assets associated with a specific agreement
       operationId: findAll_2
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: filterRequest
           in: query
+          description: Filter criteria for searching assets
           required: true
           schema:
             $ref: '#/components/schemas/FilterRequestAssetFinanceAssetDTO'
@@ -1007,19 +1234,27 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Successfully retrieved list of assets
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/PaginationResponseAssetFinanceAssetDTO'
+                $ref: '#/components/schemas/PaginationResponse'
+        '400':
+          description: Invalid filter request
+        '404':
+          description: Agreement not found
+        '500':
+          description: Internal server error
     post:
       tags:
         - AssetFinanceAsset
       summary: Create a new asset for an agreement
+      description: Add a new asset (vehicle, equipment, etc.) to an existing agreement
       operationId: create_2
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
@@ -1038,32 +1273,42 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Asset created successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/AssetFinanceAssetDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/usage-records:
     get:
       tags:
         - UsageRecord
       summary: List/Search usage records for an asset
+      description: Retrieve a paginated list of usage records (mileage, hours, etc.) for a specific asset
       operationId: findAll_3
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: filterRequest
           in: query
+          description: Filter criteria for searching usage records
           required: true
           schema:
             $ref: '#/components/schemas/FilterRequestUsageRecordDTO'
@@ -1075,25 +1320,34 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Successfully retrieved list of usage records
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/PaginationResponseUsageRecordDTO'
+                $ref: '#/components/schemas/PaginationResponse'
+        '400':
+          description: Invalid filter request
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
     post:
       tags:
         - UsageRecord
       summary: Create a new usage record for an asset
+      description: Create a new usage record to track asset usage metrics (mileage, operating hours, etc.)
       operationId: create_3
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
@@ -1112,32 +1366,42 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Usage record created successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/UsageRecordDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/service-events:
     get:
       tags:
         - ServiceEvent
       summary: List/Search service events for an asset
+      description: Retrieve a paginated list of service/maintenance events for a specific asset
       operationId: findAll_4
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: filterRequest
           in: query
+          description: Filter criteria for searching service events
           required: true
           schema:
             $ref: '#/components/schemas/FilterRequestServiceEventDTO'
@@ -1149,25 +1413,34 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Successfully retrieved list of service events
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/PaginationResponseServiceEventDTO'
+                $ref: '#/components/schemas/PaginationResponse'
+        '400':
+          description: Invalid filter request
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
     post:
       tags:
         - ServiceEvent
       summary: Create a new service event for an asset
+      description: Create a new service/maintenance event record (maintenance, damage, repair, etc.)
       operationId: create_4
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
@@ -1186,32 +1459,42 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Service event created successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ServiceEventDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/return-records:
     get:
       tags:
         - ReturnRecord
       summary: List/Search return records for an asset
+      description: Retrieve a paginated list of return/condition assessment records for a specific asset
       operationId: findAll_5
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: filterRequest
           in: query
+          description: Filter criteria for searching return records
           required: true
           schema:
             $ref: '#/components/schemas/FilterRequestReturnRecordDTO'
@@ -1223,25 +1506,34 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Successfully retrieved list of return records
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/PaginationResponseReturnRecordDTO'
+                $ref: '#/components/schemas/PaginationResponse'
+        '400':
+          description: Invalid filter request
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
     post:
       tags:
         - ReturnRecord
       summary: Create a new return record for an asset
+      description: Create a new return record to document asset condition assessment upon return
       operationId: create_5
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
@@ -1260,32 +1552,42 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Return record created successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/ReturnRecordDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/pickup-records:
     get:
       tags:
         - PickupRecord
       summary: List/Search pickup records for an asset
+      description: Retrieve a paginated list of pickup/collection records for a specific asset
       operationId: findAll_6
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: filterRequest
           in: query
+          description: Filter criteria for searching pickup records
           required: true
           schema:
             $ref: '#/components/schemas/FilterRequestPickupRecordDTO'
@@ -1297,25 +1599,34 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Successfully retrieved list of pickup records
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/PaginationResponsePickupRecordDTO'
+                $ref: '#/components/schemas/PaginationResponse'
+        '400':
+          description: Invalid filter request
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
     post:
       tags:
         - PickupRecord
       summary: Create a new pickup record for an asset
+      description: Create a new pickup/collection record to track asset pickup logistics
       operationId: create_6
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
@@ -1334,32 +1645,42 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Pickup record created successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/PickupRecordDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
   /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/delivery-records:
     get:
       tags:
         - DeliveryRecord
       summary: List/Search delivery records for an asset
+      description: Retrieve a paginated list of delivery/shipment records for a specific asset
       operationId: findAll_7
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
             format: uuid
         - name: filterRequest
           in: query
+          description: Filter criteria for searching delivery records
           required: true
           schema:
             $ref: '#/components/schemas/FilterRequestDeliveryRecordDTO'
@@ -1371,25 +1692,34 @@ paths:
             type: string
       responses:
         '200':
-          description: OK
+          description: Successfully retrieved list of delivery records
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/PaginationResponseDeliveryRecordDTO'
+                $ref: '#/components/schemas/PaginationResponse'
+        '400':
+          description: Invalid filter request
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
     post:
       tags:
         - DeliveryRecord
       summary: Create a new delivery record for an asset
+      description: Create a new delivery/shipment record to track asset delivery logistics
       operationId: create_7
       parameters:
         - name: agreementId
           in: path
+          description: Unique identifier of the agreement
           required: true
           schema:
             type: string
             format: uuid
         - name: assetId
           in: path
+          description: Unique identifier of the asset
           required: true
           schema:
             type: string
@@ -1408,18 +1738,22 @@ paths:
         required: true
       responses:
         '200':
-          description: OK
+          description: Delivery record created successfully
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/DeliveryRecordDTO'
+        '400':
+          description: Invalid input data
+        '404':
+          description: Asset or agreement not found
+        '500':
+          description: Internal server error
 components:
   schemas:
     AssetFinanceAgreementDTO:
       required:
         - agreementStatus
-        - contractId
-        - customerId
         - endDate
         - financeType
         - paymentFrequency
@@ -1431,12 +1765,6 @@ components:
           type: string
           format: uuid
           readOnly: true
-        contractId:
-          type: string
-          format: uuid
-        customerId:
-          type: string
-          format: uuid
         loanServicingCaseId:
           type: string
           format: uuid
@@ -1927,14 +2255,15 @@ components:
           type: object
           description: End value of the range
       description: Represents a range with from and to values
-    PaginationResponseAssetFinanceAgreementDTO:
+    PaginationResponse:
       type: object
       properties:
         content:
           type: array
           description: The list of items for the current page.
           items:
-            $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+            type: object
+            description: The list of items for the current page.
         totalElements:
           type: integer
           description: The total number of elements across all pages.
@@ -1962,27 +2291,6 @@ components:
         options:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
-    PaginationResponseEndOptionDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: The list of items for the current page.
-          items:
-            $ref: '#/components/schemas/EndOptionDTO'
-        totalElements:
-          type: integer
-          description: The total number of elements across all pages.
-          format: int64
-        totalPages:
-          type: integer
-          description: The total number of pages based on the data size and page size.
-          format: int32
-        currentPage:
-          type: integer
-          description: The current page number, typically zero-based.
-          format: int32
-      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestAssetFinanceAssetDTO:
       required:
         - pagination
@@ -1997,27 +2305,6 @@ components:
         options:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
-    PaginationResponseAssetFinanceAssetDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: The list of items for the current page.
-          items:
-            $ref: '#/components/schemas/AssetFinanceAssetDTO'
-        totalElements:
-          type: integer
-          description: The total number of elements across all pages.
-          format: int64
-        totalPages:
-          type: integer
-          description: The total number of pages based on the data size and page size.
-          format: int32
-        currentPage:
-          type: integer
-          description: The current page number, typically zero-based.
-          format: int32
-      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestUsageRecordDTO:
       required:
         - pagination
@@ -2032,27 +2319,6 @@ components:
         options:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
-    PaginationResponseUsageRecordDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: The list of items for the current page.
-          items:
-            $ref: '#/components/schemas/UsageRecordDTO'
-        totalElements:
-          type: integer
-          description: The total number of elements across all pages.
-          format: int64
-        totalPages:
-          type: integer
-          description: The total number of pages based on the data size and page size.
-          format: int32
-        currentPage:
-          type: integer
-          description: The current page number, typically zero-based.
-          format: int32
-      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestServiceEventDTO:
       required:
         - pagination
@@ -2067,27 +2333,6 @@ components:
         options:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
-    PaginationResponseServiceEventDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: The list of items for the current page.
-          items:
-            $ref: '#/components/schemas/ServiceEventDTO'
-        totalElements:
-          type: integer
-          description: The total number of elements across all pages.
-          format: int64
-        totalPages:
-          type: integer
-          description: The total number of pages based on the data size and page size.
-          format: int32
-        currentPage:
-          type: integer
-          description: The current page number, typically zero-based.
-          format: int32
-      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestReturnRecordDTO:
       required:
         - pagination
@@ -2102,27 +2347,6 @@ components:
         options:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
-    PaginationResponseReturnRecordDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: The list of items for the current page.
-          items:
-            $ref: '#/components/schemas/ReturnRecordDTO'
-        totalElements:
-          type: integer
-          description: The total number of elements across all pages.
-          format: int64
-        totalPages:
-          type: integer
-          description: The total number of pages based on the data size and page size.
-          format: int32
-        currentPage:
-          type: integer
-          description: The current page number, typically zero-based.
-          format: int32
-      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestPickupRecordDTO:
       required:
         - pagination
@@ -2137,27 +2361,6 @@ components:
         options:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
-    PaginationResponsePickupRecordDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: The list of items for the current page.
-          items:
-            $ref: '#/components/schemas/PickupRecordDTO'
-        totalElements:
-          type: integer
-          description: The total number of elements across all pages.
-          format: int64
-        totalPages:
-          type: integer
-          description: The total number of pages based on the data size and page size.
-          format: int32
-        currentPage:
-          type: integer
-          description: The current page number, typically zero-based.
-          format: int32
-      description: Represents a paginated response containing a list of items and pagination metadata.
     FilterRequestDeliveryRecordDTO:
       required:
         - pagination
@@ -2172,24 +2375,3 @@ components:
         options:
           $ref: '#/components/schemas/FilterOptions'
       description: Generic filter request that includes both filter criteria and pagination
-    PaginationResponseDeliveryRecordDTO:
-      type: object
-      properties:
-        content:
-          type: array
-          description: The list of items for the current page.
-          items:
-            $ref: '#/components/schemas/DeliveryRecordDTO'
-        totalElements:
-          type: integer
-          description: The total number of elements across all pages.
-          format: int64
-        totalPages:
-          type: integer
-          description: The total number of pages based on the data size and page size.
-          format: int32
-        currentPage:
-          type: integer
-          description: The current page number, typically zero-based.
-          format: int32
-      description: Represents a paginated response containing a list of items and pagination metadata.
