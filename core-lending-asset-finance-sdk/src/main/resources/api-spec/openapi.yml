@@ -1,0 +1,2285 @@
+openapi: 3.0.1
+info:
+  title: core-lending-asset-finance
+  description: Asset Finance Management System (Renting & Leasing)
+  contact:
+    name: Firefly Software Solutions Inc
+    email: dev@getfirefly.io
+  version: 1.0.0
+servers:
+  - url: http://core.getfirefly.io/asset-finance
+    description: Development Environment
+  - url: /
+    description: Local Development Environment
+tags:
+  - name: AssetFinanceAgreement
+    description: Operations for Asset Finance Agreements (Leasing & Renting)
+  - name: ServiceEvent
+    description: Operations for Asset Service Events (Maintenance, Damage, etc.)
+  - name: EndOption
+    description: Operations for Lease-End Purchase Options
+  - name: ReturnRecord
+    description: Operations for Asset Return Records
+  - name: UsageRecord
+    description: Operations for Asset Usage Records (Mileage, Hours, etc.)
+  - name: AssetFinanceAsset
+    description: Operations for Asset Finance Assets
+paths:
+  /api/v1/asset-finance-agreements/{assetFinanceAgreementId}:
+    get:
+      tags:
+        - AssetFinanceAgreement
+      summary: Get an asset finance agreement by ID
+      operationId: getById
+      parameters:
+        - name: assetFinanceAgreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+    put:
+      tags:
+        - AssetFinanceAgreement
+      summary: Update an existing asset finance agreement
+      operationId: update
+      parameters:
+        - name: assetFinanceAgreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+    delete:
+      tags:
+        - AssetFinanceAgreement
+      summary: Delete an asset finance agreement
+      operationId: delete
+      parameters:
+        - name: assetFinanceAgreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/asset-finance-agreements/{agreementId}/end-options/{optionId}:
+    get:
+      tags:
+        - EndOption
+      summary: Get an end option by ID
+      operationId: getById_1
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: optionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EndOptionDTO'
+    put:
+      tags:
+        - EndOption
+      summary: Update an existing end option
+      operationId: update_1
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: optionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndOptionDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EndOptionDTO'
+    delete:
+      tags:
+        - EndOption
+      summary: Delete an end option
+      operationId: delete_1
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: optionId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}:
+    get:
+      tags:
+        - AssetFinanceAsset
+      summary: Get an asset by ID
+      operationId: getById_2
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AssetFinanceAssetDTO'
+    put:
+      tags:
+        - AssetFinanceAsset
+      summary: Update an existing asset
+      operationId: update_2
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetFinanceAssetDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AssetFinanceAssetDTO'
+    delete:
+      tags:
+        - AssetFinanceAsset
+      summary: Delete an asset
+      operationId: delete_2
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/usage-records/{recordId}:
+    get:
+      tags:
+        - UsageRecord
+      summary: Get a usage record by ID
+      operationId: getById_3
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsageRecordDTO'
+    put:
+      tags:
+        - UsageRecord
+      summary: Update an existing usage record
+      operationId: update_3
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsageRecordDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsageRecordDTO'
+    delete:
+      tags:
+        - UsageRecord
+      summary: Delete a usage record
+      operationId: delete_3
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/service-events/{eventId}:
+    get:
+      tags:
+        - ServiceEvent
+      summary: Get a service event by ID
+      operationId: getById_4
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceEventDTO'
+    put:
+      tags:
+        - ServiceEvent
+      summary: Update an existing service event
+      operationId: update_4
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceEventDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceEventDTO'
+    delete:
+      tags:
+        - ServiceEvent
+      summary: Delete a service event
+      operationId: delete_4
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/return-records/{recordId}:
+    get:
+      tags:
+        - ReturnRecord
+      summary: Get a return record by ID
+      operationId: getById_5
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ReturnRecordDTO'
+    put:
+      tags:
+        - ReturnRecord
+      summary: Update an existing return record
+      operationId: update_5
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReturnRecordDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ReturnRecordDTO'
+    delete:
+      tags:
+        - ReturnRecord
+      summary: Delete a return record
+      operationId: delete_5
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: recordId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/asset-finance-agreements:
+    get:
+      tags:
+        - AssetFinanceAgreement
+      summary: List/Search asset finance agreements
+      operationId: findAll
+      parameters:
+        - name: pagination.pageNumber
+          in: query
+          description: Page number (0-based)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pagination.pageSize
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: pagination.sortBy
+          in: query
+          description: Field to sort by
+          required: false
+          schema:
+            type: string
+        - name: pagination.sortDirection
+          in: query
+          description: Sort direction (ASC or DESC)
+          required: false
+          schema:
+            type: string
+            default: DESC
+        - name: options.caseInsensitiveStrings
+          in: query
+          description: Enable case-insensitive string filtering
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: options.includeInheritedFields
+          in: query
+          description: Include fields from parent classes
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: filters.contractId
+          in: query
+          description: Exact filter for contract id
+          required: false
+          schema:
+            type: string
+        - name: filters.customerId
+          in: query
+          description: Exact filter for customer id
+          required: false
+          schema:
+            type: string
+        - name: filters.loanServicingCaseId
+          in: query
+          description: Exact filter for loan servicing case id
+          required: false
+          schema:
+            type: string
+        - name: filters.financeType
+          in: query
+          description: Exact filter for finance type
+          required: false
+          schema:
+            type: string
+            enum:
+              - RENTING
+              - LEASING
+        - name: filters.agreementStatus
+          in: query
+          description: Exact filter for agreement status
+          required: false
+          schema:
+            type: string
+            enum:
+              - ACTIVE
+              - SUSPENDED
+              - CLOSED
+              - TERMINATED
+              - DEFAULTED
+        - name: filters.startDate
+          in: query
+          description: Exact filter for start date
+          required: false
+          schema:
+            type: string
+        - name: filters.endDate
+          in: query
+          description: Exact filter for end date
+          required: false
+          schema:
+            type: string
+        - name: filters.totalValue
+          in: query
+          description: Exact filter for total value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[totalValue].from
+          in: query
+          description: Filter total value from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[totalValue].to
+          in: query
+          description: Filter total value to value
+          required: false
+          schema:
+            type: string
+        - name: filters.paymentFrequency
+          in: query
+          description: Exact filter for payment frequency
+          required: false
+          schema:
+            type: string
+        - name: filters.servicesIncluded
+          in: query
+          description: Exact filter for services included
+          required: false
+          schema:
+            type: boolean
+        - name: filters.depositAmount
+          in: query
+          description: Exact filter for deposit amount
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[depositAmount].from
+          in: query
+          description: Filter deposit amount from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[depositAmount].to
+          in: query
+          description: Filter deposit amount to value
+          required: false
+          schema:
+            type: string
+        - name: filters.earlyTerminationFee
+          in: query
+          description: Exact filter for early termination fee
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[earlyTerminationFee].from
+          in: query
+          description: Filter early termination fee from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[earlyTerminationFee].to
+          in: query
+          description: Filter early termination fee to value
+          required: false
+          schema:
+            type: string
+        - name: filters.residualValue
+          in: query
+          description: Exact filter for residual value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[residualValue].from
+          in: query
+          description: Filter residual value from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[residualValue].to
+          in: query
+          description: Filter residual value to value
+          required: false
+          schema:
+            type: string
+        - name: filters.purchaseOptionAvailable
+          in: query
+          description: Exact filter for purchase option available
+          required: false
+          schema:
+            type: boolean
+        - name: filters.purchaseOptionPrice
+          in: query
+          description: Exact filter for purchase option price
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[purchaseOptionPrice].from
+          in: query
+          description: Filter purchase option price from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[purchaseOptionPrice].to
+          in: query
+          description: Filter purchase option price to value
+          required: false
+          schema:
+            type: string
+        - name: filters.remarks
+          in: query
+          description: Exact filter for remarks
+          required: false
+          schema:
+            type: string
+        - name: filters.createdAt
+          in: query
+          description: Exact filter for created at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].from
+          in: query
+          description: Filter created at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].to
+          in: query
+          description: Filter created at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: filters.updatedAt
+          in: query
+          description: Exact filter for updated at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].from
+          in: query
+          description: Filter updated at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].to
+          in: query
+          description: Filter updated at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaginationResponseAssetFinanceAgreementDTO'
+    post:
+      tags:
+        - AssetFinanceAgreement
+      summary: Create a new asset finance agreement
+      operationId: create
+      parameters:
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+  /api/v1/asset-finance-agreements/{agreementId}/end-options:
+    get:
+      tags:
+        - EndOption
+      summary: List/Search end options for an agreement
+      operationId: findAll_1
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pagination.pageNumber
+          in: query
+          description: Page number (0-based)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pagination.pageSize
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: pagination.sortBy
+          in: query
+          description: Field to sort by
+          required: false
+          schema:
+            type: string
+        - name: pagination.sortDirection
+          in: query
+          description: Sort direction (ASC or DESC)
+          required: false
+          schema:
+            type: string
+            default: DESC
+        - name: options.caseInsensitiveStrings
+          in: query
+          description: Enable case-insensitive string filtering
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: options.includeInheritedFields
+          in: query
+          description: Include fields from parent classes
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: filters.assetFinanceAgreementId
+          in: query
+          description: Exact filter for asset finance agreement id
+          required: false
+          schema:
+            type: string
+        - name: filters.optionExerciseDate
+          in: query
+          description: Exact filter for option exercise date
+          required: false
+          schema:
+            type: string
+        - name: filters.optionPaidAmount
+          in: query
+          description: Exact filter for option paid amount
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[optionPaidAmount].from
+          in: query
+          description: Filter option paid amount from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[optionPaidAmount].to
+          in: query
+          description: Filter option paid amount to value
+          required: false
+          schema:
+            type: string
+        - name: filters.isExercised
+          in: query
+          description: Exact filter for is exercised
+          required: false
+          schema:
+            type: boolean
+        - name: filters.note
+          in: query
+          description: Exact filter for note
+          required: false
+          schema:
+            type: string
+        - name: filters.createdAt
+          in: query
+          description: Exact filter for created at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].from
+          in: query
+          description: Filter created at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].to
+          in: query
+          description: Filter created at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: filters.updatedAt
+          in: query
+          description: Exact filter for updated at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].from
+          in: query
+          description: Filter updated at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].to
+          in: query
+          description: Filter updated at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaginationResponseEndOptionDTO'
+    post:
+      tags:
+        - EndOption
+      summary: Create a new end option for an agreement
+      operationId: create_1
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndOptionDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EndOptionDTO'
+  /api/v1/asset-finance-agreements/{agreementId}/assets:
+    get:
+      tags:
+        - AssetFinanceAsset
+      summary: List/Search assets for an agreement
+      operationId: findAll_2
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pagination.pageNumber
+          in: query
+          description: Page number (0-based)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pagination.pageSize
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: pagination.sortBy
+          in: query
+          description: Field to sort by
+          required: false
+          schema:
+            type: string
+        - name: pagination.sortDirection
+          in: query
+          description: Sort direction (ASC or DESC)
+          required: false
+          schema:
+            type: string
+            default: DESC
+        - name: options.caseInsensitiveStrings
+          in: query
+          description: Enable case-insensitive string filtering
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: options.includeInheritedFields
+          in: query
+          description: Include fields from parent classes
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: filters.assetFinanceAgreementId
+          in: query
+          description: Exact filter for asset finance agreement id
+          required: false
+          schema:
+            type: string
+        - name: filters.assetTypeId
+          in: query
+          description: Exact filter for asset type id
+          required: false
+          schema:
+            type: string
+        - name: filters.assetDescription
+          in: query
+          description: Exact filter for asset description
+          required: false
+          schema:
+            type: string
+        - name: filters.assetSerialNumber
+          in: query
+          description: Exact filter for asset serial number
+          required: false
+          schema:
+            type: string
+        - name: filters.assetValue
+          in: query
+          description: Exact filter for asset value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[assetValue].from
+          in: query
+          description: Filter asset value from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[assetValue].to
+          in: query
+          description: Filter asset value to value
+          required: false
+          schema:
+            type: string
+        - name: filters.isActive
+          in: query
+          description: Exact filter for is active
+          required: false
+          schema:
+            type: boolean
+        - name: filters.note
+          in: query
+          description: Exact filter for note
+          required: false
+          schema:
+            type: string
+        - name: filters.createdAt
+          in: query
+          description: Exact filter for created at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].from
+          in: query
+          description: Filter created at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].to
+          in: query
+          description: Filter created at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: filters.updatedAt
+          in: query
+          description: Exact filter for updated at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].from
+          in: query
+          description: Filter updated at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].to
+          in: query
+          description: Filter updated at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaginationResponseAssetFinanceAssetDTO'
+    post:
+      tags:
+        - AssetFinanceAsset
+      summary: Create a new asset for an agreement
+      operationId: create_2
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssetFinanceAssetDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AssetFinanceAssetDTO'
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/usage-records:
+    get:
+      tags:
+        - UsageRecord
+      summary: List/Search usage records for an asset
+      operationId: findAll_3
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pagination.pageNumber
+          in: query
+          description: Page number (0-based)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pagination.pageSize
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: pagination.sortBy
+          in: query
+          description: Field to sort by
+          required: false
+          schema:
+            type: string
+        - name: pagination.sortDirection
+          in: query
+          description: Sort direction (ASC or DESC)
+          required: false
+          schema:
+            type: string
+            default: DESC
+        - name: options.caseInsensitiveStrings
+          in: query
+          description: Enable case-insensitive string filtering
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: options.includeInheritedFields
+          in: query
+          description: Include fields from parent classes
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: filters.assetFinanceAssetId
+          in: query
+          description: Exact filter for asset finance asset id
+          required: false
+          schema:
+            type: string
+        - name: filters.usageDate
+          in: query
+          description: Exact filter for usage date
+          required: false
+          schema:
+            type: string
+        - name: filters.mileage
+          in: query
+          description: Exact filter for mileage
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: rangeFilters.ranges[mileage].from
+          in: query
+          description: Filter mileage from value
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: rangeFilters.ranges[mileage].to
+          in: query
+          description: Filter mileage to value
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: filters.usageDetail
+          in: query
+          description: Exact filter for usage detail
+          required: false
+          schema:
+            type: string
+        - name: filters.createdAt
+          in: query
+          description: Exact filter for created at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].from
+          in: query
+          description: Filter created at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].to
+          in: query
+          description: Filter created at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: filters.updatedAt
+          in: query
+          description: Exact filter for updated at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].from
+          in: query
+          description: Filter updated at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].to
+          in: query
+          description: Filter updated at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaginationResponseUsageRecordDTO'
+    post:
+      tags:
+        - UsageRecord
+      summary: Create a new usage record for an asset
+      operationId: create_3
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsageRecordDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UsageRecordDTO'
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/service-events:
+    get:
+      tags:
+        - ServiceEvent
+      summary: List/Search service events for an asset
+      operationId: findAll_4
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pagination.pageNumber
+          in: query
+          description: Page number (0-based)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pagination.pageSize
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: pagination.sortBy
+          in: query
+          description: Field to sort by
+          required: false
+          schema:
+            type: string
+        - name: pagination.sortDirection
+          in: query
+          description: Sort direction (ASC or DESC)
+          required: false
+          schema:
+            type: string
+            default: DESC
+        - name: options.caseInsensitiveStrings
+          in: query
+          description: Enable case-insensitive string filtering
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: options.includeInheritedFields
+          in: query
+          description: Include fields from parent classes
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: filters.assetFinanceAssetId
+          in: query
+          description: Exact filter for asset finance asset id
+          required: false
+          schema:
+            type: string
+        - name: filters.eventDate
+          in: query
+          description: Exact filter for event date
+          required: false
+          schema:
+            type: string
+        - name: filters.eventType
+          in: query
+          description: Exact filter for event type
+          required: false
+          schema:
+            type: string
+            enum:
+              - MAINTENANCE
+              - DAMAGE
+              - RETURN
+              - INSPECTION
+              - MODIFICATION
+        - name: filters.cost
+          in: query
+          description: Exact filter for cost
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[cost].from
+          in: query
+          description: Filter cost from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[cost].to
+          in: query
+          description: Filter cost to value
+          required: false
+          schema:
+            type: string
+        - name: filters.note
+          in: query
+          description: Exact filter for note
+          required: false
+          schema:
+            type: string
+        - name: filters.createdAt
+          in: query
+          description: Exact filter for created at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].from
+          in: query
+          description: Filter created at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].to
+          in: query
+          description: Filter created at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: filters.updatedAt
+          in: query
+          description: Exact filter for updated at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].from
+          in: query
+          description: Filter updated at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].to
+          in: query
+          description: Filter updated at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaginationResponseServiceEventDTO'
+    post:
+      tags:
+        - ServiceEvent
+      summary: Create a new service event for an asset
+      operationId: create_4
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceEventDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ServiceEventDTO'
+  /api/v1/asset-finance-agreements/{agreementId}/assets/{assetId}/return-records:
+    get:
+      tags:
+        - ReturnRecord
+      summary: List/Search return records for an asset
+      operationId: findAll_5
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: pagination.pageNumber
+          in: query
+          description: Page number (0-based)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pagination.pageSize
+          in: query
+          description: Number of items per page
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: pagination.sortBy
+          in: query
+          description: Field to sort by
+          required: false
+          schema:
+            type: string
+        - name: pagination.sortDirection
+          in: query
+          description: Sort direction (ASC or DESC)
+          required: false
+          schema:
+            type: string
+            default: DESC
+        - name: options.caseInsensitiveStrings
+          in: query
+          description: Enable case-insensitive string filtering
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: options.includeInheritedFields
+          in: query
+          description: Include fields from parent classes
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: filters.assetFinanceAssetId
+          in: query
+          description: Exact filter for asset finance asset id
+          required: false
+          schema:
+            type: string
+        - name: filters.actualReturnDate
+          in: query
+          description: Exact filter for actual return date
+          required: false
+          schema:
+            type: string
+        - name: filters.conditionReport
+          in: query
+          description: Exact filter for condition report
+          required: false
+          schema:
+            type: string
+        - name: filters.damageCost
+          in: query
+          description: Exact filter for damage cost
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[damageCost].from
+          in: query
+          description: Filter damage cost from value
+          required: false
+          schema:
+            type: string
+        - name: rangeFilters.ranges[damageCost].to
+          in: query
+          description: Filter damage cost to value
+          required: false
+          schema:
+            type: string
+        - name: filters.isFinalized
+          in: query
+          description: Exact filter for is finalized
+          required: false
+          schema:
+            type: boolean
+        - name: filters.note
+          in: query
+          description: Exact filter for note
+          required: false
+          schema:
+            type: string
+        - name: filters.createdAt
+          in: query
+          description: Exact filter for created at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].from
+          in: query
+          description: Filter created at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[createdAt].to
+          in: query
+          description: Filter created at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: filters.updatedAt
+          in: query
+          description: Exact filter for updated at
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].from
+          in: query
+          description: Filter updated at from value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: rangeFilters.ranges[updatedAt].to
+          in: query
+          description: Filter updated at to value
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PaginationResponseReturnRecordDTO'
+    post:
+      tags:
+        - ReturnRecord
+      summary: Create a new return record for an asset
+      operationId: create_5
+      parameters:
+        - name: agreementId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: assetId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Idempotency-Key
+          in: header
+          description: Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReturnRecordDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ReturnRecordDTO'
+components:
+  schemas:
+    AssetFinanceAgreementDTO:
+      required:
+        - agreementStatus
+        - contractId
+        - customerId
+        - endDate
+        - financeType
+        - paymentFrequency
+        - startDate
+        - totalValue
+      type: object
+      properties:
+        assetFinanceAgreementId:
+          type: string
+          format: uuid
+          readOnly: true
+        contractId:
+          type: string
+          format: uuid
+        customerId:
+          type: string
+          format: uuid
+        loanServicingCaseId:
+          type: string
+          format: uuid
+        financeType:
+          type: string
+          enum:
+            - RENTING
+            - LEASING
+        agreementStatus:
+          type: string
+          enum:
+            - ACTIVE
+            - SUSPENDED
+            - CLOSED
+            - TERMINATED
+            - DEFAULTED
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        totalValue:
+          type: number
+        paymentFrequency:
+          maxLength: 50
+          minLength: 0
+          type: string
+        servicesIncluded:
+          type: boolean
+        depositAmount:
+          type: number
+        earlyTerminationFee:
+          type: number
+        residualValue:
+          type: number
+        purchaseOptionAvailable:
+          type: boolean
+        purchaseOptionPrice:
+          type: number
+        remarks:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    EndOptionDTO:
+      required:
+        - assetFinanceAgreementId
+        - optionExerciseDate
+        - optionPaidAmount
+      type: object
+      properties:
+        endOptionId:
+          type: string
+          format: uuid
+          readOnly: true
+        assetFinanceAgreementId:
+          type: string
+          format: uuid
+        optionExerciseDate:
+          type: string
+          format: date
+        optionPaidAmount:
+          type: number
+        isExercised:
+          type: boolean
+        note:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    AssetFinanceAssetDTO:
+      required:
+        - assetDescription
+        - assetFinanceAgreementId
+        - assetSerialNumber
+        - assetTypeId
+        - assetValue
+      type: object
+      properties:
+        assetFinanceAssetId:
+          type: string
+          format: uuid
+          readOnly: true
+        assetFinanceAgreementId:
+          type: string
+          format: uuid
+        assetTypeId:
+          type: string
+          format: uuid
+        assetDescription:
+          maxLength: 500
+          minLength: 0
+          type: string
+        assetSerialNumber:
+          maxLength: 100
+          minLength: 0
+          type: string
+        assetValue:
+          type: number
+        isActive:
+          type: boolean
+        note:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    UsageRecordDTO:
+      required:
+        - assetFinanceAssetId
+        - usageDate
+      type: object
+      properties:
+        usageRecordId:
+          type: string
+          format: uuid
+          readOnly: true
+        assetFinanceAssetId:
+          type: string
+          format: uuid
+        usageDate:
+          type: string
+          format: date
+        mileage:
+          minimum: 0
+          type: integer
+          format: int32
+        usageDetail:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ServiceEventDTO:
+      required:
+        - assetFinanceAssetId
+        - eventDate
+        - eventType
+      type: object
+      properties:
+        serviceEventId:
+          type: string
+          format: uuid
+          readOnly: true
+        assetFinanceAssetId:
+          type: string
+          format: uuid
+        eventDate:
+          type: string
+          format: date
+        eventType:
+          type: string
+          enum:
+            - MAINTENANCE
+            - DAMAGE
+            - RETURN
+            - INSPECTION
+            - MODIFICATION
+        cost:
+          type: number
+        note:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ReturnRecordDTO:
+      required:
+        - actualReturnDate
+        - assetFinanceAssetId
+        - conditionReport
+      type: object
+      properties:
+        returnRecordId:
+          type: string
+          format: uuid
+          readOnly: true
+        assetFinanceAssetId:
+          type: string
+          format: uuid
+        actualReturnDate:
+          type: string
+          format: date
+        conditionReport:
+          maxLength: 2000
+          minLength: 0
+          type: string
+        damageCost:
+          type: number
+        isFinalized:
+          type: boolean
+        note:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    PaginationResponseAssetFinanceAgreementDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: '#/components/schemas/AssetFinanceAgreementDTO'
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: The current page number, typically zero-based.
+          format: int32
+      description: Represents a paginated response containing a list of items and pagination metadata.
+    PaginationResponseEndOptionDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: '#/components/schemas/EndOptionDTO'
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: The current page number, typically zero-based.
+          format: int32
+      description: Represents a paginated response containing a list of items and pagination metadata.
+    PaginationResponseAssetFinanceAssetDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: '#/components/schemas/AssetFinanceAssetDTO'
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: The current page number, typically zero-based.
+          format: int32
+      description: Represents a paginated response containing a list of items and pagination metadata.
+    PaginationResponseUsageRecordDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: '#/components/schemas/UsageRecordDTO'
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: The current page number, typically zero-based.
+          format: int32
+      description: Represents a paginated response containing a list of items and pagination metadata.
+    PaginationResponseServiceEventDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: '#/components/schemas/ServiceEventDTO'
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: The current page number, typically zero-based.
+          format: int32
+      description: Represents a paginated response containing a list of items and pagination metadata.
+    PaginationResponseReturnRecordDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: '#/components/schemas/ReturnRecordDTO'
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: The current page number, typically zero-based.
+          format: int32
+      description: Represents a paginated response containing a list of items and pagination metadata.
