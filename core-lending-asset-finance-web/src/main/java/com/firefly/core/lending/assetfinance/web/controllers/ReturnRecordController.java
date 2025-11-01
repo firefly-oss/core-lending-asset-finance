@@ -22,9 +22,15 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.lending.assetfinance.core.services.ReturnRecordService;
 import com.firefly.core.lending.assetfinance.interfaces.dtos.ReturnRecordDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -40,10 +46,29 @@ public class ReturnRecordController {
     private final ReturnRecordService service;
 
     @GetMapping
-    @Operation(summary = "List/Search return records for an asset")
+    @Operation(
+            summary = "List/Search return records for an asset",
+            description = "Retrieve a paginated list of return/condition assessment records for a specific asset"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully retrieved list of return records",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = PaginationResponse.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid filter request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Asset or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<PaginationResponse<ReturnRecordDTO>>> findAll(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Filter criteria for searching return records")
             @Valid @RequestBody FilterRequest<ReturnRecordDTO> filterRequest) {
 
         return service.findAll(assetFinanceAgreementId, assetFinanceAssetId, filterRequest)
@@ -51,10 +76,29 @@ public class ReturnRecordController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new return record for an asset")
+    @Operation(
+            summary = "Create a new return record for an asset",
+            description = "Create a new return record to document asset condition assessment upon return"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Return record created successfully",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ReturnRecordDTO.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Asset or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<ReturnRecordDTO>> create(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Return record data to create", required = true)
             @Valid @RequestBody ReturnRecordDTO dto) {
 
         return service.create(assetFinanceAgreementId, assetFinanceAssetId, dto)
@@ -62,10 +106,28 @@ public class ReturnRecordController {
     }
 
     @GetMapping("/{recordId}")
-    @Operation(summary = "Get a return record by ID")
+    @Operation(
+            summary = "Get a return record by ID",
+            description = "Retrieve a specific return record by its unique identifier"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Return record found",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ReturnRecordDTO.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "404", description = "Return record, asset, or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<ReturnRecordDTO>> getById(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Unique identifier of the return record", required = true)
             @PathVariable("recordId") UUID returnRecordId) {
 
         return service.getById(assetFinanceAgreementId, assetFinanceAssetId, returnRecordId)
@@ -73,11 +135,31 @@ public class ReturnRecordController {
     }
 
     @PutMapping("/{recordId}")
-    @Operation(summary = "Update an existing return record")
+    @Operation(
+            summary = "Update an existing return record",
+            description = "Update all fields of an existing return record"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Return record updated successfully",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ReturnRecordDTO.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Return record, asset, or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<ReturnRecordDTO>> update(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Unique identifier of the return record to update", required = true)
             @PathVariable("recordId") UUID returnRecordId,
+            @Parameter(description = "Updated return record data", required = true)
             @Valid @RequestBody ReturnRecordDTO dto) {
 
         return service.update(assetFinanceAgreementId, assetFinanceAssetId, returnRecordId, dto)
@@ -85,10 +167,21 @@ public class ReturnRecordController {
     }
 
     @DeleteMapping("/{recordId}")
-    @Operation(summary = "Delete a return record")
+    @Operation(
+            summary = "Delete a return record",
+            description = "Permanently delete a return record"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Return record deleted successfully", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Return record, asset, or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<Void>> delete(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Unique identifier of the return record to delete", required = true)
             @PathVariable("recordId") UUID returnRecordId) {
 
         return service.delete(assetFinanceAgreementId, assetFinanceAssetId, returnRecordId)

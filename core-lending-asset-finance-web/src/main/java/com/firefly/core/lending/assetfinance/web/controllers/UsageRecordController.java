@@ -22,9 +22,15 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.lending.assetfinance.core.services.UsageRecordService;
 import com.firefly.core.lending.assetfinance.interfaces.dtos.UsageRecordDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -40,10 +46,29 @@ public class UsageRecordController {
     private final UsageRecordService service;
 
     @GetMapping
-    @Operation(summary = "List/Search usage records for an asset")
+    @Operation(
+            summary = "List/Search usage records for an asset",
+            description = "Retrieve a paginated list of usage records (mileage, hours, etc.) for a specific asset"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Successfully retrieved list of usage records",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = PaginationResponse.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid filter request", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Asset or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<PaginationResponse<UsageRecordDTO>>> findAll(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Filter criteria for searching usage records")
             @Valid @RequestBody FilterRequest<UsageRecordDTO> filterRequest) {
 
         return service.findAll(assetFinanceAgreementId, assetFinanceAssetId, filterRequest)
@@ -51,10 +76,29 @@ public class UsageRecordController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new usage record for an asset")
+    @Operation(
+            summary = "Create a new usage record for an asset",
+            description = "Create a new usage record to track asset usage metrics (mileage, operating hours, etc.)"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usage record created successfully",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UsageRecordDTO.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Asset or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<UsageRecordDTO>> create(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Usage record data to create", required = true)
             @Valid @RequestBody UsageRecordDTO dto) {
 
         return service.create(assetFinanceAgreementId, assetFinanceAssetId, dto)
@@ -62,10 +106,28 @@ public class UsageRecordController {
     }
 
     @GetMapping("/{recordId}")
-    @Operation(summary = "Get a usage record by ID")
+    @Operation(
+            summary = "Get a usage record by ID",
+            description = "Retrieve a specific usage record by its unique identifier"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usage record found",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UsageRecordDTO.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "404", description = "Usage record, asset, or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<UsageRecordDTO>> getById(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Unique identifier of the usage record", required = true)
             @PathVariable("recordId") UUID usageRecordId) {
 
         return service.getById(assetFinanceAgreementId, assetFinanceAssetId, usageRecordId)
@@ -73,11 +135,31 @@ public class UsageRecordController {
     }
 
     @PutMapping("/{recordId}")
-    @Operation(summary = "Update an existing usage record")
+    @Operation(
+            summary = "Update an existing usage record",
+            description = "Update all fields of an existing usage record"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usage record updated successfully",
+                    content = @Content(
+                            mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = UsageRecordDTO.class)
+                    )
+            ),
+            @ApiResponse(responseCode = "400", description = "Invalid input data", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Usage record, asset, or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<UsageRecordDTO>> update(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Unique identifier of the usage record to update", required = true)
             @PathVariable("recordId") UUID usageRecordId,
+            @Parameter(description = "Updated usage record data", required = true)
             @Valid @RequestBody UsageRecordDTO dto) {
 
         return service.update(assetFinanceAgreementId, assetFinanceAssetId, usageRecordId, dto)
@@ -85,10 +167,21 @@ public class UsageRecordController {
     }
 
     @DeleteMapping("/{recordId}")
-    @Operation(summary = "Delete a usage record")
+    @Operation(
+            summary = "Delete a usage record",
+            description = "Permanently delete a usage record"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Usage record deleted successfully", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Usage record, asset, or agreement not found", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     public Mono<ResponseEntity<Void>> delete(
+            @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
+            @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
+            @Parameter(description = "Unique identifier of the usage record to delete", required = true)
             @PathVariable("recordId") UUID usageRecordId) {
 
         return service.delete(assetFinanceAgreementId, assetFinanceAssetId, usageRecordId)
