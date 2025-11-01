@@ -169,9 +169,7 @@ erDiagram
 
     ASSET_FINANCE_AGREEMENT {
         uuid asset_finance_agreement_id PK
-        uuid contract_id FK "NOT NULL"
-        uuid customer_id FK "NOT NULL"
-        uuid loan_servicing_case_id FK "NULLABLE - Links to loan-servicing"
+        uuid loan_servicing_case_id FK "NULLABLE - Links to loan-servicing (provides contract and customer info)"
         finance_type_enum finance_type "NOT NULL - RENTING or LEASING"
         agreement_status_enum agreement_status "NOT NULL"
         date start_date "NOT NULL"
@@ -307,9 +305,7 @@ The core entity representing a renting or leasing agreement.
 
 **Key Fields:**
 - `assetFinanceAgreementId` (UUID, PK): Unique identifier
-- `contractId` (UUID, FK): Reference to contract in contract management system
-- `customerId` (UUID, FK): Reference to customer
-- `loanServicingCaseId` (UUID, FK): Links to loan servicing case for payment processing
+- `loanServicingCaseId` (UUID, FK): Links to loan servicing case for payment processing (contract and customer info available through this relationship)
 - `financeType` (FinanceTypeEnum): RENTING or LEASING
 - `agreementStatus` (AgreementStatusEnum): Current status of the agreement
 - `startDate` (LocalDate): Agreement start date
@@ -824,10 +820,8 @@ mvn verify -P integration-tests
 
 This microservice integrates with:
 
-1. **core-lending-loan-servicing**: Links via `loanServicingCaseId` for payment processing and account management
-2. **Contract Management System**: References contracts via `contractId`
-3. **Customer Management System**: References customers via `customerId`
-4. **Asset Type Catalog**: References asset types via `assetTypeId`
+1. **core-lending-loan-servicing**: Links via `loanServicingCaseId` for payment processing, account management, and access to contract/customer information
+2. **Asset Type Catalog**: References asset types via `assetTypeId`
 
 ---
 
