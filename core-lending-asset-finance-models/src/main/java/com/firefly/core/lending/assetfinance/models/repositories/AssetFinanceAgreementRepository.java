@@ -19,12 +19,7 @@ package com.firefly.core.lending.assetfinance.models.repositories;
 
 import com.firefly.core.lending.assetfinance.models.entities.AssetFinanceAgreement;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
-
-import java.util.UUID;
 
 @Repository
 public interface AssetFinanceAgreementRepository extends BaseRepository<AssetFinanceAgreement> {
-    Flux<AssetFinanceAgreement> findByCustomerId(UUID customerId);
-    Flux<AssetFinanceAgreement> findByContractId(UUID contractId);
 }

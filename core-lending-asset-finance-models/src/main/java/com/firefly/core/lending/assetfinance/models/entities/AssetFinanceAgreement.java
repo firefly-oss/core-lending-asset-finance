@@ -43,12 +43,6 @@ public class AssetFinanceAgreement {
     @Column("asset_finance_agreement_id")
     private UUID assetFinanceAgreementId;
 
-    @Column("contract_id")
-    private UUID contractId;
-
-    @Column("customer_id")
-    private UUID customerId;
-
     @Column("loan_servicing_case_id")
     private UUID loanServicingCaseId; // FK to LoanServicingCase in loan-servicing microservice
 

@@ -43,14 +43,6 @@ public class AssetFinanceAgreementDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private UUID assetFinanceAgreementId;
 
-    @NotNull(message = "Contract ID is required")
-    @FilterableId
-    private UUID contractId;
-
-    @NotNull(message = "Customer ID is required")
-    @FilterableId
-    private UUID customerId;
-
     @FilterableId
     private UUID loanServicingCaseId; // FK to LoanServicingCase in loan-servicing microservice
 
