@@ -18,8 +18,8 @@
 package com.firefly.core.lending.assetfinance.interfaces.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.firefly.annotations.ValidAmount;
-import com.firefly.core.utils.annotations.FilterableId;
+import org.fireflyframework.annotations.ValidAmount;
+import org.fireflyframework.utils.annotations.FilterableId;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

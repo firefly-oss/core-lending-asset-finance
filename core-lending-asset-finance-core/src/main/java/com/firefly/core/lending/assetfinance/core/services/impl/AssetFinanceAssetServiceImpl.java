@@ -17,9 +17,9 @@
 
 package com.firefly.core.lending.assetfinance.core.services.impl;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterUtils;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.lending.assetfinance.core.mappers.AssetFinanceAssetMapper;
 import com.firefly.core.lending.assetfinance.core.services.AssetFinanceAssetService;
 import com.firefly.core.lending.assetfinance.interfaces.dtos.AssetFinanceAssetDTO;
