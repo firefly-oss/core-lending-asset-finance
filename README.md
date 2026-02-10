@@ -1,7 +1,7 @@
 # Core Lending Asset Finance
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.java.net/)
+[![Java](https://img.shields.io/badge/Java-25-orange.svg)](https://openjdk.java.net/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen.svg)](https://spring.io/projects/spring-boot)
 
 A unified microservice for managing both **renting** and **leasing** asset finance agreements within the Firefly lending platform.
@@ -47,11 +47,11 @@ A unified microservice for managing both **renting** and **leasing** asset finan
 This microservice consolidates the previously separate `core-lending-renting` and `core-lending-leasing` services into a single, unified codebase. The two modules shared approximately 90% of their code, making this merge a significant improvement in maintainability and consistency.
 
 **Key Benefits:**
-- ✅ 90% code reduction through elimination of duplication
-- ✅ Unified API for both renting and leasing
-- ✅ Single deployment reduces operational complexity
-- ✅ Easier maintenance with one codebase
-- ✅ Consistent business logic across finance types
+- 90% code reduction through elimination of duplication
+- Unified API for both renting and leasing
+- Single deployment reduces operational complexity
+- Easier maintenance with one codebase
+- Consistent business logic across finance types
 
 ---
 
@@ -83,7 +83,7 @@ The complete lifecycle of an asset in a finance agreement follows this flow:
    ↓
 2. Asset Assigned to Agreement
    ↓
-3. 📦 DELIVERY (DeliveryRecord)
+3. DELIVERY (DeliveryRecord)
    │  Status: PENDING → SCHEDULED → IN_TRANSIT → DELIVERED
    │  Tracks: Carrier, tracking number, delivery address, recipient, signature, photos
    ↓
@@ -91,11 +91,11 @@ The complete lifecycle of an asset in a finance agreement follows this flow:
    │  ├─ Service Events (maintenance, damage, inspections)
    │  └─ Usage Records (mileage, operating hours)
    ↓
-5. 🚚 PICKUP (PickupRecord)
+5. PICKUP (PickupRecord)
    │  Status: PENDING → SCHEDULED → IN_TRANSIT → PICKED_UP
    │  Tracks: Carrier, tracking number, pickup address, collector, signature, photos
    ↓
-6. 📋 RETURN (ReturnRecord)
+6. RETURN (ReturnRecord)
    │  Condition assessment, damage costs, finalization
    ↓
 7. Agreement Closed
@@ -132,7 +132,7 @@ core-lending-asset-finance/
 
 ### Technology Stack
 
-- **Language**: Java 21
+- **Language**: Java 25
 - **Framework**: Spring Boot 3.x with Spring WebFlux (Reactive)
 - **Database**: PostgreSQL with R2DBC (Reactive Database Connectivity)
 - **Migration**: Flyway
@@ -685,7 +685,7 @@ All endpoints are prefixed with `/api/v1` and support reactive (non-blocking) op
 
 ### Prerequisites
 
-- **Java 21** or higher
+- **Java 25** or higher
 - **Maven 3.8+**
 - **PostgreSQL 14+**
 - **Docker** (optional, for local PostgreSQL)
