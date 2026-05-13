@@ -51,14 +51,7 @@ public class UsageRecordController {
             description = "Retrieve a paginated list of usage records (mileage, hours, etc.) for a specific asset"
     )
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Successfully retrieved list of usage records",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = PaginationResponse.class)
-                    )
-            ),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list of usage records"),
             @ApiResponse(responseCode = "400", description = "Invalid filter request", content = @Content),
             @ApiResponse(responseCode = "404", description = "Asset or agreement not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
@@ -69,7 +62,7 @@ public class UsageRecordController {
             @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
             @Parameter(description = "Filter criteria for searching usage records")
-            @Valid @RequestBody FilterRequest<UsageRecordDTO> filterRequest) {
+            @ModelAttribute FilterRequest<UsageRecordDTO> filterRequest) {
 
         return service.findAll(assetFinanceAgreementId, assetFinanceAssetId, filterRequest)
                 .map(ResponseEntity::ok);

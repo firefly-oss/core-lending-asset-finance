@@ -51,14 +51,7 @@ public class EndOptionController {
             description = "Retrieve a paginated list of lease-end purchase options for a specific agreement"
     )
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Successfully retrieved list of end options",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = PaginationResponse.class)
-                    )
-            ),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list of end options"),
             @ApiResponse(responseCode = "400", description = "Invalid filter request", content = @Content),
             @ApiResponse(responseCode = "404", description = "Agreement not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
@@ -67,7 +60,7 @@ public class EndOptionController {
             @Parameter(description = "Unique identifier of the agreement", required = true)
             @PathVariable("agreementId") UUID assetFinanceAgreementId,
             @Parameter(description = "Filter criteria for searching end options")
-            @Valid @RequestBody FilterRequest<EndOptionDTO> filterRequest) {
+            @ModelAttribute FilterRequest<EndOptionDTO> filterRequest) {
 
         return service.findAll(assetFinanceAgreementId, filterRequest)
                 .map(ResponseEntity::ok);

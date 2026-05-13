@@ -1110,9 +1110,9 @@ paths:
         "200":
           description: Successfully retrieved list of agreements
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: "#/components/schemas/PaginationResponse"
+                $ref: "#/components/schemas/PaginationResponseAssetFinanceAgreementDTO"
         "400":
           description: Invalid filter request
         "500":
@@ -1181,9 +1181,9 @@ paths:
         "200":
           description: Successfully retrieved list of end options
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: "#/components/schemas/PaginationResponse"
+                $ref: "#/components/schemas/PaginationResponseEndOptionDTO"
         "400":
           description: Invalid filter request
         "404":
@@ -1263,9 +1263,9 @@ paths:
         "200":
           description: Successfully retrieved list of assets
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: "#/components/schemas/PaginationResponse"
+                $ref: "#/components/schemas/PaginationResponseAssetFinanceAssetDTO"
         "400":
           description: Invalid filter request
         "404":
@@ -1352,9 +1352,9 @@ paths:
         "200":
           description: Successfully retrieved list of usage records
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: "#/components/schemas/PaginationResponse"
+                $ref: "#/components/schemas/PaginationResponseUsageRecordDTO"
         "400":
           description: Invalid filter request
         "404":
@@ -1449,9 +1449,9 @@ paths:
         "200":
           description: Successfully retrieved list of service events
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: "#/components/schemas/PaginationResponse"
+                $ref: "#/components/schemas/PaginationResponseServiceEventDTO"
         "400":
           description: Invalid filter request
         "404":
@@ -1546,9 +1546,9 @@ paths:
         "200":
           description: Successfully retrieved list of return records
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: "#/components/schemas/PaginationResponse"
+                $ref: "#/components/schemas/PaginationResponseReturnRecordDTO"
         "400":
           description: Invalid filter request
         "404":
@@ -1643,9 +1643,9 @@ paths:
         "200":
           description: Successfully retrieved list of pickup records
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: "#/components/schemas/PaginationResponse"
+                $ref: "#/components/schemas/PaginationResponsePickupRecordDTO"
         "400":
           description: Invalid filter request
         "404":
@@ -1739,9 +1739,9 @@ paths:
         "200":
           description: Successfully retrieved list of delivery records
           content:
-            application/json:
+            '*/*':
               schema:
-                $ref: "#/components/schemas/PaginationResponse"
+                $ref: "#/components/schemas/PaginationResponseDeliveryRecordDTO"
         "400":
           description: Invalid filter request
         "404":
@@ -2304,15 +2304,14 @@ components:
           type: object
           description: End value of the range
       description: Represents a range with from and to values
-    PaginationResponse:
+    PaginationResponseAssetFinanceAgreementDTO:
       type: object
       properties:
         content:
           type: array
           description: The list of items for the current page.
           items:
-            type: object
-            description: The list of items for the current page.
+            $ref: "#/components/schemas/AssetFinanceAgreementDTO"
         totalElements:
           type: integer
           description: The total number of elements across all pages.
@@ -2341,6 +2340,28 @@ components:
         options:
           $ref: "#/components/schemas/FilterOptions"
       description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponseEndOptionDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: "#/components/schemas/EndOptionDTO"
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: "The current page number, typically zero-based."
+          format: int32
+      description: Represents a paginated response containing a list of items and
+        pagination metadata.
     FilterRequestAssetFinanceAssetDTO:
       required:
       - pagination
@@ -2355,6 +2376,28 @@ components:
         options:
           $ref: "#/components/schemas/FilterOptions"
       description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponseAssetFinanceAssetDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: "#/components/schemas/AssetFinanceAssetDTO"
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: "The current page number, typically zero-based."
+          format: int32
+      description: Represents a paginated response containing a list of items and
+        pagination metadata.
     FilterRequestUsageRecordDTO:
       required:
       - pagination
@@ -2369,6 +2412,28 @@ components:
         options:
           $ref: "#/components/schemas/FilterOptions"
       description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponseUsageRecordDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: "#/components/schemas/UsageRecordDTO"
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: "The current page number, typically zero-based."
+          format: int32
+      description: Represents a paginated response containing a list of items and
+        pagination metadata.
     FilterRequestServiceEventDTO:
       required:
       - pagination
@@ -2383,6 +2448,28 @@ components:
         options:
           $ref: "#/components/schemas/FilterOptions"
       description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponseServiceEventDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: "#/components/schemas/ServiceEventDTO"
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: "The current page number, typically zero-based."
+          format: int32
+      description: Represents a paginated response containing a list of items and
+        pagination metadata.
     FilterRequestReturnRecordDTO:
       required:
       - pagination
@@ -2397,6 +2484,28 @@ components:
         options:
           $ref: "#/components/schemas/FilterOptions"
       description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponseReturnRecordDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: "#/components/schemas/ReturnRecordDTO"
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: "The current page number, typically zero-based."
+          format: int32
+      description: Represents a paginated response containing a list of items and
+        pagination metadata.
     FilterRequestPickupRecordDTO:
       required:
       - pagination
@@ -2411,6 +2520,28 @@ components:
         options:
           $ref: "#/components/schemas/FilterOptions"
       description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponsePickupRecordDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: "#/components/schemas/PickupRecordDTO"
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: "The current page number, typically zero-based."
+          format: int32
+      description: Represents a paginated response containing a list of items and
+        pagination metadata.
     FilterRequestDeliveryRecordDTO:
       required:
       - pagination
@@ -2425,3 +2556,25 @@ components:
         options:
           $ref: "#/components/schemas/FilterOptions"
       description: Generic filter request that includes both filter criteria and pagination
+    PaginationResponseDeliveryRecordDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          description: The list of items for the current page.
+          items:
+            $ref: "#/components/schemas/DeliveryRecordDTO"
+        totalElements:
+          type: integer
+          description: The total number of elements across all pages.
+          format: int64
+        totalPages:
+          type: integer
+          description: The total number of pages based on the data size and page size.
+          format: int32
+        currentPage:
+          type: integer
+          description: "The current page number, typically zero-based."
+          format: int32
+      description: Represents a paginated response containing a list of items and
+        pagination metadata.

@@ -52,20 +52,13 @@ public class AssetFinanceAgreementController {
             description = "Retrieve a paginated list of asset finance agreements with optional filtering and sorting"
     )
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Successfully retrieved list of agreements",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = PaginationResponse.class)
-                    )
-            ),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list of agreements"),
             @ApiResponse(responseCode = "400", description = "Invalid filter request", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
     public Mono<ResponseEntity<PaginationResponse<AssetFinanceAgreementDTO>>> findAll(
             @Parameter(description = "Filter criteria for searching agreements")
-            @Valid @RequestBody FilterRequest<AssetFinanceAgreementDTO> filterRequest) {
+            @ModelAttribute FilterRequest<AssetFinanceAgreementDTO> filterRequest) {
 
         return service.findAll(filterRequest)
                 .map(ResponseEntity::ok);

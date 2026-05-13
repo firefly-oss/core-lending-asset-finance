@@ -51,14 +51,7 @@ public class PickupRecordController {
             description = "Retrieve a paginated list of pickup/collection records for a specific asset"
     )
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Successfully retrieved list of pickup records",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = PaginationResponse.class)
-                    )
-            ),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved list of pickup records"),
             @ApiResponse(responseCode = "400", description = "Invalid filter request", content = @Content),
             @ApiResponse(responseCode = "404", description = "Asset or agreement not found", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
@@ -69,7 +62,7 @@ public class PickupRecordController {
             @Parameter(description = "Unique identifier of the asset", required = true)
             @PathVariable("assetId") UUID assetFinanceAssetId,
             @Parameter(description = "Filter criteria for searching pickup records")
-            @Valid @RequestBody FilterRequest<PickupRecordDTO> filterRequest) {
+            @ModelAttribute FilterRequest<PickupRecordDTO> filterRequest) {
 
         return service.findAll(assetFinanceAgreementId, assetFinanceAssetId, filterRequest)
                 .map(ResponseEntity::ok);
