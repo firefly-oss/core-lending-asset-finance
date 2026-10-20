@@ -336,7 +336,7 @@ The core entity representing a renting or leasing agreement.
 - `purchaseOptionAvailable` (Boolean): Whether purchase option is available
 - `purchaseOptionPrice` (BigDecimal): Price for purchase option
 
-**DTO:** `AssetFinanceAgreementDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.agreement.v1`
+**DTO:** `AssetFinanceAgreementDTO` in `io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.agreement.v1`
 
 ---
 
@@ -353,7 +353,7 @@ Represents individual assets associated with a finance agreement.
 - `assetValue` (BigDecimal): Value of the asset
 - `isActive` (Boolean): Whether the asset is currently active
 
-**DTO:** `AssetFinanceAssetDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.assets.v1`
+**DTO:** `AssetFinanceAssetDTO` in `io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.assets.v1`
 
 ---
 
@@ -368,7 +368,7 @@ Represents lease-end purchase options for leasing agreements.
 - `optionPaidAmount` (BigDecimal): Amount paid for the option
 - `isExercised` (Boolean): Whether the option has been exercised
 
-**DTO:** `EndOptionDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.option.v1`
+**DTO:** `EndOptionDTO` in `io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.option.v1`
 
 ---
 
@@ -383,7 +383,7 @@ Tracks maintenance, damage, inspections, and modifications to assets.
 - `eventType` (EventTypeEnum): Type of event (MAINTENANCE, DAMAGE, RETURN, INSPECTION, MODIFICATION)
 - `cost` (BigDecimal): Cost associated with the event
 
-**DTO:** `ServiceEventDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.event.v1`
+**DTO:** `ServiceEventDTO` in `io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.event.v1`
 
 ---
 
@@ -398,7 +398,7 @@ Records usage metrics for assets (e.g., mileage, operating hours).
 - `mileage` (Integer): Mileage or usage metric
 - `usageDetail` (String): Additional usage details
 
-**DTO:** `UsageRecordDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.usage.v1`
+**DTO:** `UsageRecordDTO` in `io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.usage.v1`
 
 ---
 
@@ -414,7 +414,7 @@ Manages asset returns at the end of agreements.
 - `damageCost` (BigDecimal): Cost of damages
 - `isFinalized` (Boolean): Whether the return is finalized
 
-**DTO:** `ReturnRecordDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.usage.v1`
+**DTO:** `ReturnRecordDTO` in `io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.usage.v1`
 
 ---
 
@@ -444,7 +444,7 @@ Manages asset delivery and shipment tracking.
 - `failedDeliveryReason` (String): Reason for failed delivery (max 1000 chars)
 - `deliveryAttempts` (Integer): Number of delivery attempts made
 
-**DTO:** `DeliveryRecordDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.delivery.v1`
+**DTO:** `DeliveryRecordDTO` in `io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.delivery.v1`
 
 ---
 
@@ -474,7 +474,7 @@ Manages asset pickup and collection tracking when retrieving assets from custome
 - `failedPickupReason` (String): Reason for failed pickup (max 1000 chars)
 - `pickupAttempts` (Integer): Number of pickup attempts made
 
-**DTO:** `PickupRecordDTO` in `com.firefly.core.lending.assetfinance.interfaces.dtos.pickup.v1`
+**DTO:** `PickupRecordDTO` in `io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.pickup.v1`
 
 ---
 
@@ -488,7 +488,7 @@ Distinguishes between renting and leasing agreements.
 - `RENTING`: Rental agreement
 - `LEASING`: Lease agreement
 
-**Package:** `com.firefly.core.lending.assetfinance.interfaces.enums.finance.v1`
+**Package:** `io.fireflysoftware.core.lending.assetfinance.interfaces.enums.finance.v1`
 
 ---
 
@@ -503,7 +503,7 @@ Represents the current status of a finance agreement.
 - `TERMINATED`: Agreement was terminated early
 - `DEFAULTED`: Agreement is in default
 
-**Package:** `com.firefly.core.lending.assetfinance.interfaces.enums.agreement.v1`
+**Package:** `io.fireflysoftware.core.lending.assetfinance.interfaces.enums.agreement.v1`
 
 ---
 
@@ -518,7 +518,7 @@ Categorizes service events for assets.
 - `INSPECTION`: Inspection event
 - `MODIFICATION`: Modification to the asset
 
-**Package:** `com.firefly.core.lending.assetfinance.interfaces.enums.event.v1`
+**Package:** `io.fireflysoftware.core.lending.assetfinance.interfaces.enums.event.v1`
 
 ---
 
@@ -534,7 +534,7 @@ Represents the current status of an asset delivery.
 - `FAILED`: Delivery attempt failed
 - `CANCELLED`: Delivery was cancelled
 
-**Package:** `com.firefly.core.lending.assetfinance.interfaces.enums.delivery.v1`
+**Package:** `io.fireflysoftware.core.lending.assetfinance.interfaces.enums.delivery.v1`
 
 ---
 
@@ -550,7 +550,7 @@ Represents the current status of an asset pickup/collection.
 - `FAILED`: Pickup attempt failed
 - `CANCELLED`: Pickup was cancelled
 
-**Package:** `com.firefly.core.lending.assetfinance.interfaces.enums.pickup.v1`
+**Package:** `io.fireflysoftware.core.lending.assetfinance.interfaces.enums.pickup.v1`
 
 ---
 
