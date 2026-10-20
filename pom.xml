@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>core-lending-asset-finance</artifactId>
+    <name>core-lending-asset-finance</name>
     <packaging>pom</packaging>
     <modules>
         <module>core-lending-asset-finance-core</module>

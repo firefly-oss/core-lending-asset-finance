@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>core-lending-asset-finance-web</artifactId>
+    <name>core-lending-asset-finance-web</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
