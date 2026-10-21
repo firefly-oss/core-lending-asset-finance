@@ -23,6 +23,8 @@ import org.fireflyframework.core.queries.PaginationResponse;
 import io.fireflysoftware.core.lending.assetfinance.core.mappers.AssetFinanceAgreementMapper;
 import io.fireflysoftware.core.lending.assetfinance.core.services.AssetFinanceAgreementService;
 import io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.AssetFinanceAgreementDTO;
+import io.fireflysoftware.core.lending.assetfinance.interfaces.enums.AgreementStatusEnum;
+import io.fireflysoftware.core.lending.assetfinance.interfaces.enums.FinanceTypeEnum;
 import io.fireflysoftware.core.lending.assetfinance.models.entities.AssetFinanceAgreement;
 import io.fireflysoftware.core.lending.assetfinance.models.repositories.AssetFinanceAgreementRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +54,8 @@ public class AssetFinanceAgreementServiceImpl implements AssetFinanceAgreementSe
 
     @Override
     public Mono<AssetFinanceAgreementDTO> create(AssetFinanceAgreementDTO dto) {
-        return Mono.just(dto)
+        return validateFinanceType(dto)
+                .then(Mono.just(dto))
                 .map(mapper::toEntity)
                 .flatMap(repository::save)
                 .map(mapper::toDTO);
@@ -76,8 +79,23 @@ public class AssetFinanceAgreementServiceImpl implements AssetFinanceAgreementSe
                         "Asset Finance Agreement not found with id: " + assetFinanceAgreementId
                 )))
                 .flatMap(existingAgreement -> {
+                    if (dto.getFinanceType() == null) {
+                        dto.setFinanceType(existingAgreement.getFinanceType());
+                    }
+                    return validateFinanceType(dto).thenReturn(existingAgreement);
+                })
+                .flatMap(existingAgreement -> {
                     AssetFinanceAgreement updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setAssetFinanceAgreementId(existingAgreement.getAssetFinanceAgreementId());
+                    AgreementStatusEnum current = existingAgreement.getAgreementStatus();
+                    if (updatedEntity.getAgreementStatus() == null) {
+                        updatedEntity.setAgreementStatus(current);
+                    }
+                    if (!AssetFinanceAgreementLifecycle.canTransition(current, updatedEntity.getAgreementStatus())) {
+                        return Mono.error(new IllegalStateException(
+                                "Agreement " + assetFinanceAgreementId + " cannot move from " + current
+                                        + " to " + updatedEntity.getAgreementStatus()));
+                    }
                     return repository.save(updatedEntity);
                 })
                 .map(mapper::toDTO);
@@ -91,5 +109,30 @@ public class AssetFinanceAgreementServiceImpl implements AssetFinanceAgreementSe
                         "Asset Finance Agreement not found with id: " + assetFinanceAgreementId
                 )))
                 .flatMap(repository::delete);
+    }
+
+    /**
+     * LEASING is a financial lease and must carry a purchase option.
+     * RENTING is an operating rental and must not carry one.
+     */
+    private Mono<Void> validateFinanceType(AssetFinanceAgreementDTO dto) {
+        if (dto.getFinanceType() == null) {
+            return Mono.error(new IllegalArgumentException("Finance type is required"));
+        }
+        if (dto.getFinanceType() == FinanceTypeEnum.RENTING) {
+            if (Boolean.TRUE.equals(dto.getPurchaseOptionAvailable()) || dto.getPurchaseOptionPrice() != null) {
+                return Mono.error(new IllegalArgumentException(
+                        "Renting is an operating rental and cannot include a purchase option"));
+            }
+            return Mono.empty();
+        }
+        if (dto.getFinanceType() == FinanceTypeEnum.LEASING) {
+            if (!Boolean.TRUE.equals(dto.getPurchaseOptionAvailable()) || dto.getPurchaseOptionPrice() == null) {
+                return Mono.error(new IllegalArgumentException(
+                        "Leasing requires a purchase option and a purchase option price"));
+            }
+            return Mono.empty();
+        }
+        return Mono.error(new IllegalArgumentException("Unsupported finance type: " + dto.getFinanceType()));
     }
 }

@@ -1,9 +1,9 @@
 <a href="https://fireflysoftware.io/openplatform/">
 <picture>
-  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/firefly-oss/.github/main/profile/assets/banner-narrow-dark.svg">
-  <source media="(max-width: 640px)" srcset="https://raw.githubusercontent.com/firefly-oss/.github/main/profile/assets/banner-narrow-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/firefly-oss/.github/main/profile/assets/banner-dark.svg">
-  <img src="https://raw.githubusercontent.com/firefly-oss/.github/main/profile/assets/banner-light.svg" alt="Firefly OpenPlatform - Core Lending - Asset Finance" width="100%">
+  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/fireflysoftwaresolutions/.github/main/profile/assets/banner-narrow-dark.svg">
+  <source media="(max-width: 640px)" srcset="https://raw.githubusercontent.com/fireflysoftwaresolutions/.github/main/profile/assets/banner-narrow-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/fireflysoftwaresolutions/.github/main/profile/assets/banner-dark.svg">
+  <img src="https://raw.githubusercontent.com/fireflysoftwaresolutions/.github/main/profile/assets/banner-light.svg" alt="Firefly OpenPlatform - Core Lending - Asset Finance" width="100%">
 </picture>
 </a>
 
@@ -17,7 +17,14 @@ Developed by the Firefly Software Foundation. [dev@fireflysoftware.io](mailto:de
 [![Java](https://img.shields.io/badge/Java-25-orange.svg)](https://openjdk.java.net/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen.svg)](https://spring.io/projects/spring-boot)
 
-A unified microservice for managing both **renting** and **leasing** asset finance agreements within the Firefly lending platform.
+A unified microservice for asset finance. One agreement stores every product kind in the catalog below. Leasing is a financial lease with a purchase option. Renting is an operating rental without a purchase option.
+
+## Product kinds
+
+| Kind | What the agreement stores |
+|------|---------------------------|
+| `LEASING` | Financial lease. `purchaseOptionAvailable` is true and `purchaseOptionPrice` is required. A lease-end purchase option can be recorded on the agreement. |
+| `RENTING` | Operating rental. A purchase option and a purchase option price cannot be stored. |
 
 ---
 
@@ -156,7 +163,7 @@ core-lending-asset-finance/
 
 ### Key Design Principles
 
-1. **Finance Type Discriminator**: The unified model uses a `financeType` field (`RENTING` or `LEASING`) to distinguish between use cases, allowing shared infrastructure while maintaining business logic flexibility.
+1. **Finance Type Discriminator**: The agreement stores `financeType` as `LEASING` or `RENTING`. Leasing carries a purchase option. Renting does not.
 
 2. **Reactive Programming**: Built on Spring WebFlux and R2DBC for non-blocking, scalable operations.
 
@@ -482,11 +489,11 @@ Manages asset pickup and collection tracking when retrieving assets from custome
 
 #### FinanceTypeEnum
 
-Distinguishes between renting and leasing agreements.
+Product kind stored on the asset finance agreement.
 
 **Values:**
-- `RENTING`: Rental agreement
-- `LEASING`: Lease agreement
+- `RENTING`: Operating rental. No purchase option.
+- `LEASING`: Financial lease with a purchase option and a purchase option price.
 
 **Package:** `io.fireflysoftware.core.lending.assetfinance.interfaces.enums.finance.v1`
 

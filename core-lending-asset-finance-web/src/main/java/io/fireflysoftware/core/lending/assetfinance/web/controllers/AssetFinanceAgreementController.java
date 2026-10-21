@@ -40,7 +40,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/asset-finance-agreements")
-@Tag(name = "AssetFinanceAgreement", description = "Operations for Asset Finance Agreements (Leasing & Renting)")
+@Tag(name = "AssetFinanceAgreement", description = "Asset finance agreements. Product kinds: LEASING (financial lease with a purchase option) and RENTING (operating rental without a purchase option).")
 @RequiredArgsConstructor
 public class AssetFinanceAgreementController {
 

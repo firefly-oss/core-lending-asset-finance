@@ -23,7 +23,9 @@ import org.fireflyframework.core.queries.PaginationResponse;
 import io.fireflysoftware.core.lending.assetfinance.core.mappers.EndOptionMapper;
 import io.fireflysoftware.core.lending.assetfinance.core.services.EndOptionService;
 import io.fireflysoftware.core.lending.assetfinance.interfaces.dtos.EndOptionDTO;
+import io.fireflysoftware.core.lending.assetfinance.interfaces.enums.FinanceTypeEnum;
 import io.fireflysoftware.core.lending.assetfinance.models.entities.EndOption;
+import io.fireflysoftware.core.lending.assetfinance.models.repositories.AssetFinanceAgreementRepository;
 import io.fireflysoftware.core.lending.assetfinance.models.repositories.EndOptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,7 @@ public class EndOptionServiceImpl implements EndOptionService {
 
     private final EndOptionRepository repository;
     private final EndOptionMapper mapper;
+    private final AssetFinanceAgreementRepository agreementRepository;
 
     @Override
     public Mono<PaginationResponse<EndOptionDTO>> findAll(UUID assetFinanceAgreementId, FilterRequest<EndOptionDTO> filterRequest) {
@@ -52,7 +55,8 @@ public class EndOptionServiceImpl implements EndOptionService {
 
     @Override
     public Mono<EndOptionDTO> create(UUID assetFinanceAgreementId, EndOptionDTO dto) {
-        return Mono.just(dto)
+        return requireLeasingAgreement(assetFinanceAgreementId)
+                .then(Mono.just(dto))
                 .doOnNext(d -> d.setAssetFinanceAgreementId(assetFinanceAgreementId))
                 .map(mapper::toEntity)
                 .flatMap(repository::save)
@@ -76,6 +80,7 @@ public class EndOptionServiceImpl implements EndOptionService {
                         HttpStatus.NOT_FOUND,
                         "End Option not found with id: " + endOptionId
                 )))
+                .flatMap(existing -> requireLeasingAgreement(assetFinanceAgreementId).thenReturn(existing))
                 .flatMap(existing -> {
                     EndOption updatedEntity = mapper.toEntity(dto);
                     updatedEntity.setEndOptionId(existing.getEndOptionId());
@@ -93,5 +98,21 @@ public class EndOptionServiceImpl implements EndOptionService {
                         "End Option not found with id: " + endOptionId
                 )))
                 .flatMap(repository::delete);
+    }
+
+    private Mono<Void> requireLeasingAgreement(UUID assetFinanceAgreementId) {
+        return agreementRepository.findById(assetFinanceAgreementId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Asset Finance Agreement not found with id: " + assetFinanceAgreementId
+                )))
+                .flatMap(agreement -> {
+                    if (agreement.getFinanceType() != FinanceTypeEnum.LEASING) {
+                        return Mono.error(new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                "A purchase option can be stored only on a leasing agreement"));
+                    }
+                    return Mono.empty();
+                });
     }
 }

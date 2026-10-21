@@ -9,11 +9,12 @@ tags:
 - name: DeliveryRecord
   description: Operations for Asset Delivery/Shipment Records
 - name: AssetFinanceAgreement
-  description: Operations for Asset Finance Agreements (Leasing & Renting)
+  description: "Asset finance agreements. Product kinds: LEASING (financial lease\
+    \ with a purchase option) and RENTING (operating rental without a purchase option)."
+- name: EndOption
+  description: Lease-end purchase options. Stored only on a LEASING agreement.
 - name: ServiceEvent
   description: "Operations for Asset Service Events (Maintenance, Damage, etc.)"
-- name: EndOption
-  description: Operations for Lease-End Purchase Options
 - name: ReturnRecord
   description: Operations for Asset Return Records
 - name: UsageRecord
@@ -1834,6 +1835,8 @@ components:
           type: string
           format: date
         totalValue:
+          minimum: 0
+          exclusiveMinimum: true
           type: number
         paymentFrequency:
           maxLength: 50
@@ -1842,14 +1845,21 @@ components:
         servicesIncluded:
           type: boolean
         depositAmount:
+          minimum: 0
+          exclusiveMinimum: true
           type: number
         earlyTerminationFee:
+          minimum: 0
           type: number
         residualValue:
+          minimum: 0
+          exclusiveMinimum: true
           type: number
         purchaseOptionAvailable:
           type: boolean
         purchaseOptionPrice:
+          minimum: 0
+          exclusiveMinimum: true
           type: number
         remarks:
           maxLength: 1000
@@ -1879,6 +1889,7 @@ components:
           type: string
           format: date
         optionPaidAmount:
+          minimum: 0
           type: number
         isExercised:
           type: boolean
@@ -1920,6 +1931,8 @@ components:
           minLength: 0
           type: string
         assetValue:
+          minimum: 0
+          exclusiveMinimum: true
           type: number
         isActive:
           type: boolean
@@ -1989,6 +2002,7 @@ components:
           - INSPECTION
           - MODIFICATION
         cost:
+          minimum: 0
           type: number
         note:
           maxLength: 1000
@@ -2022,6 +2036,7 @@ components:
           minLength: 0
           type: string
         damageCost:
+          minimum: 0
           type: number
         isFinalized:
           type: boolean

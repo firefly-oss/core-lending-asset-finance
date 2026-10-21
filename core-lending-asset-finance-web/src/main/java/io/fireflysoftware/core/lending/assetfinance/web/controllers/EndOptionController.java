@@ -39,7 +39,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/asset-finance-agreements/{agreementId}/end-options")
-@Tag(name = "EndOption", description = "Operations for Lease-End Purchase Options")
+@Tag(name = "EndOption", description = "Lease-end purchase options. Stored only on a LEASING agreement.")
 @RequiredArgsConstructor
 public class EndOptionController {
 

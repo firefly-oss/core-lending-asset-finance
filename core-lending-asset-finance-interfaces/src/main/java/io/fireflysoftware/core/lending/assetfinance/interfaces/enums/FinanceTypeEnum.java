@@ -17,6 +17,11 @@
 
 package io.fireflysoftware.core.lending.assetfinance.interfaces.enums;
 
+/**
+ * Product kind stored on an asset finance agreement.
+ * LEASING is a financial lease with a purchase option.
+ * RENTING is an operating rental without a purchase option.
+ */
 public enum FinanceTypeEnum {
     RENTING,
     LEASING
